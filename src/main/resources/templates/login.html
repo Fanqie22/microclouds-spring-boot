@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge"/>-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1"/>-->
+    <!--<link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>-->
+    <!--<link th:href="@{bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>-->
+</head>
+<body>
+<h2>Hello Word !</h2>
+<table>
+    <thead>
+    <tr>
+        <th th:text="姓名">Name</th>
+        <th th:text="密码">Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <td th:text="${name}">1</td>
+    <td th:text="${password}">2</td>
+    </tbody>
+</table>
+</body>
+</html>
