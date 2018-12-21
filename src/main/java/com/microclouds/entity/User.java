@@ -22,6 +22,11 @@ public class User {
      */
     private String password;
 
+    /**
+     * 用户类型
+     */
+    private Integer userType;
+
     public Long getId() {
         return id;
     }
@@ -46,12 +51,21 @@ public class User {
         this.password = password;
     }
 
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
+                ", userType=" + userType +
                 '}';
     }
 }
