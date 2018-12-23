@@ -1,4 +1,4 @@
-package com.microclouds.common.uitl;
+package com.microclouds.common.util;
 
 import org.apache.shiro.crypto.hash.Md5Hash;
 

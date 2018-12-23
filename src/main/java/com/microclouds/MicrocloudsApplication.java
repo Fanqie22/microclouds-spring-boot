@@ -2,6 +2,7 @@ package com.microclouds;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author : https://github.com/Fanqie22
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 //指定扫描包路径
 @SpringBootApplication
+//@ComponentScan(basePackages = { "com" })
 public class MicrocloudsApplication {
 
     public static void main(String[] args) {

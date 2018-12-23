@@ -1,7 +1,8 @@
 package com.microclouds.config;
 
-import com.microclouds.common.uitl.ResponseValue;
-import com.microclouds.entity.User;
+import com.microclouds.common.util.ResponseValue;
+import com.microclouds.common.util.JsonUtils;
+import com.microclouds.pojo.User;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 
@@ -20,7 +21,7 @@ public class ResourceRequestFilter extends AccessControlFilter {
     /**
      * 登录页面
      */
-    private String loginUrl = "login";
+    private String loginUrl = "/microclouds/login";
 
     /**
      * 是否拦截请求
@@ -40,23 +41,10 @@ public class ResourceRequestFilter extends AccessControlFilter {
         // 获取用户信息
         Subject subject = getSubject(request, response);
         User userInfo = (User) subject.getPrincipal();
-        if (userInfo.getUserType() == 1) { // 超管
+        //这里都是普通用户即可,没配置过多权限,没必要,如果需要, 可以添加多一点条件
+        if (userInfo.getRoleName().equals("user")) {
             return true;
         }
-
-        // 获取当前请求路径
-        String requestUri = request.getRequestURI().toLowerCase();
-        requestUri = requestUri.replaceAll(request.getContextPath(), "");
-        // 获取请求方法
-        String method = request.getMethod().toLowerCase();
-        //获取数据存储的权限信息,查看用户是否有权限访问资源 TODO
-//        UserActionQueryVo vo = new UserActionQueryVo();
-//        vo.setUserId(userInfo.getId());
-//        vo.setRequestMethod(method);
-//        vo.setRequestUrl(requestUri);
-//        // 判断资源权限
-//        boolean hasPermission = actionService.hasPermission(vo);
-//        return hasPermission;
         return false;
     }
 
@@ -79,15 +67,16 @@ public class ResourceRequestFilter extends AccessControlFilter {
         String header = request.getHeader("x-requested-with");
         // 获取主体
         Subject subject = getSubject(request, response);
-        if (subject.getPrincipal() == null) { // 用户登录超时
+        // 用户登录超时
+        if (subject.getPrincipal() == null) {
             // ajax请求
             if (header != null && header.equalsIgnoreCase("XMLHttpRequest")) {
                 ResponseValue responseValue = new ResponseValue();
                 responseValue.setCode("PropertyUtil.logoutCode");//TODO
                 responseValue.setMessage("登录超时");
                 // 转换成json格式返回
-//                String result = JsonUtils.objectToJson(responseValue);
-//                response.getWriter().println(result);
+                String result = JsonUtils.objectToJson(responseValue);
+                response.getWriter().println(result);
             } else {
                 // 跳转到登录页面
                 response.sendRedirect(request.getContextPath() + loginUrl);
@@ -97,11 +86,11 @@ public class ResourceRequestFilter extends AccessControlFilter {
             if (header != null && header.equalsIgnoreCase("XMLHttpRequest")) {
                 System.out.println("header = " + header);
                 ResponseValue responseValue = new ResponseValue();
-                responseValue.setCode("PropertyUtil.unAuthcCode"); //TODO
+                responseValue.setCode("PropertyUtil.unAuthcCode"); //TODO ,这里的code自己定义
                 responseValue.setMessage("用户无权限");
                 // 转换成json格式返回
-//                String result = JsonUtils.objectToJson(responseValue);
-//                response.getWriter().println(result);
+                String result = JsonUtils.objectToJson(responseValue);
+                response.getWriter().println(result);
             } else {
                 response.sendRedirect(request.getContextPath() + loginUrl);
             }
@@ -109,4 +98,5 @@ public class ResourceRequestFilter extends AccessControlFilter {
 
         return false;
     }
+
 }

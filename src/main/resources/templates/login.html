@@ -1,13 +1,14 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta content="text/html;charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
     <!--引用github的布局-->
-    <link rel="stylesheet" th:href="@{/css/githubLayout.css}" />
+    <link rel="stylesheet" th:href="@{/css/githubLayout.css}"/>
     <!--<link crossorigin="anonymous" media="all" integrity="sha512-lLo2nlsdl+bHLu6PGvC2j3wfP45RnK4wKQLiPnCDcuXfU38AiD+JCdMywnF3WbJC1jaxe3lAI6AM4uJuMFBLEw==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-08fc49d3bd2694c870ea23d0906f3610.css" />-->
     <!--引用github的表单样式-->
-    <link rel="stylesheet" th:href="@{/css/githubStyle.css}" />
+    <link rel="stylesheet" th:href="@{/css/githubStyle.css}"/>
     <!--<link crossorigin="anonymous" media="all" integrity="sha512-bB/TbDgAlehAOuGUHfKkkvJf0cvaIjNKXUIvS5qizmKEgtYfmerfCp/t23TMnvZJ5DMuLatwS0wW98FLO1l4gg==" rel="stylesheet" href="https://github.githubassets.com/assets/github-12f3b278e437ae91b8bc11dcaa8f135f.css" />-->
     <title>Welcome to MicroClouds · MicroClouds</title>
 </head>
@@ -17,10 +18,13 @@
 <!--icon-->
 <div class="position-relative js-header-wrapper ">
     <!--<a href="#start-of-content" tabindex="1" class="px-2 py-4 bg-blue text-white show-on-focus js-skip-to-content">Skip to content</a>-->
-    <div id="js-pjax-loader-bar" class="pjax-loader-bar"><div class="progress"></div></div>
+    <div id="js-pjax-loader-bar" class="pjax-loader-bar">
+        <div class="progress"></div>
+    </div>
     <div class="header header-logged-out width-full pt-5 pb-4" role="banner">
         <div class="container clearfix width-full text-center">
-            <a class="header-logo" href="#" aria-label="Homepage" data-ga-click="(Logged out) Header, go to homepage, icon:logo-wordmark">
+            <a class="header-logo" href="#" aria-label="Homepage"
+               data-ga-click="(Logged out) Header, go to homepage, icon:logo-wordmark">
                 <!--<svg height="48" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="48" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>-->
                 <img src="/img/icon48.png" class="img-responsive" alt="MicroClouds">
             </a>
@@ -36,35 +40,44 @@
 
         <div class="auth-form px-3" id="login">
 
-            </option></form><form action="/session" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="0xZXCzQEu5fJ931Ozzs5rG/TnM5Dmad0pI6wzqFyIreldAa7J8BcwnDdgoUpsJyocWOYky0mg2CNy4nA5vNaCg==" />      <div class="auth-form-header p-0">
-            <h1>Sign in to GitHub</h1>
-        </div>
+            </option></form>
+            <form action="/session" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden"
+                                                                                value="&#x2713;"/><input type="hidden"
+                                                                                                         name="authenticity_token"
+                                                                                                         value="0xZXCzQEu5fJ931Ozzs5rG/TnM5Dmad0pI6wzqFyIreldAa7J8BcwnDdgoUpsJyocWOYky0mg2CNy4nA5vNaCg=="/>
+                <div class="auth-form-header p-0">
+                    <h1>Sign in to GitHub</h1>
+                </div>
 
 
-            <div id="js-flash-container">
+                <div id="js-flash-container">
 
-            </div>
+                </div>
 
 
-            <div class="auth-form-body mt-3">
+                <div class="auth-form-body mt-3">
 
-                <label for="login_field">
-                    Username or email address
-                </label>
-                <input type="text" name="login" id="login_field" class="form-control input-block" tabindex="1" autocapitalize="off" autocorrect="off" autofocus="autofocus" />
+                    <label for="login_field">
+                        Username or email address
+                    </label>
+                    <input type="text" name="login" id="login_field" class="form-control input-block" tabindex="1"
+                           autocapitalize="off" autocorrect="off" autofocus="autofocus"/>
 
-                <label for="password">
-                    Password <a class="label-link" href="/password_reset">Forgot password?</a>
-                </label>
-                <input type="password" name="password" id="password" class="form-control form-control input-block" tabindex="2" />
+                    <label for="password">
+                        Password <a class="label-link" href="/password_reset">Forgot password?</a>
+                    </label>
+                    <input type="password" name="password" id="password" class="form-control form-control input-block"
+                           tabindex="2"/>
 
-                <input type="submit" name="commit" value="Sign in" tabindex="3" class="btn btn-primary btn-block" data-disable-with="Signing in…" />
-            </div>
-        </form>
+                    <input type="submit" name="commit" value="Sign in" tabindex="3" class="btn btn-primary btn-block"
+                           data-disable-with="Signing in…"/>
+                </div>
+            </form>
 
             <p class="create-account-callout mt-3">
                 New to GitHub?
-                <a data-ga-click="Sign in, switch to sign up" href="/join?return_to=%2Fgithub&amp;source=login">Create an account</a>.
+                <a data-ga-click="Sign in, switch to sign up" href="/join?return_to=%2Fgithub&amp;source=login">Create
+                    an account</a>.
             </p>
         </div>
 
@@ -76,18 +89,15 @@
     <ul class="list-style-none d-flex flex-justify-center">
         <li class="mr-3"><a href="/site/terms" data-ga-click="Footer, go to terms, text:terms">Terms</a></li>
         <li class="mr-3"><a href="/site/privacy" data-ga-click="Footer, go to privacy, text:privacy">Privacy</a></li>
-        <li class="mr-3"><a href="https://help.github.com/articles/github-security/" data-ga-click="Footer, go to security, text:security">Security</a></li>
-        <li><a class="link-gray" data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact GitHub</a></li>
+        <li class="mr-3"><a href="https://help.github.com/articles/github-security/"
+                            data-ga-click="Footer, go to security, text:security">Security</a></li>
+        <li><a class="link-gray" data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact
+            GitHub</a></li>
     </ul>
 </div>
 
 
-
-
-
-
-
-
 </body>
+<script src="js/login.js"></script>
 </html>
 

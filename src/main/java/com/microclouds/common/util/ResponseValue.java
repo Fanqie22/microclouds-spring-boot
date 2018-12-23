@@ -1,4 +1,4 @@
-package com.microclouds.common.uitl;
+package com.microclouds.common.util;
 
 /**
  * @author : https://github.com/Fanqie22

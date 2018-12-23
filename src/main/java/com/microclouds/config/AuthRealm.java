@@ -1,13 +1,14 @@
 package com.microclouds.config;
 
-import com.microclouds.entity.User;
+import com.microclouds.pojo.User;
 import com.microclouds.service.UserService;
+import com.microclouds.service.impl.UserServiceImpl;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 /**
  * @description : Shiro 领域授权/认证配置类
@@ -16,9 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class AuthRealm extends AuthorizingRealm {
 
-    @Autowired
-    private UserService userService;
-
     /**
      * @param principalCollection
      * @return User(实体类)
@@ -26,14 +24,14 @@ public class AuthRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        // 获取用户权限角色模块 - 未完成
+        // 获取用户权限角色模块
         User userInfo = (User) principalCollection.fromRealm(this.getName()).iterator().next();
         // 权限
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        //这里的权限还没完善,应该传进一个List<String> ,权限类型还没录好
-        simpleAuthorizationInfo.addStringPermission("admin");//TODO
+        //这里的权限类型比较简单,这里不启用权限,因为这不是后台管理,没必要,配置拦截器的时候放松就行 ,
+        simpleAuthorizationInfo.addStringPermission("");
         // 角色
-        simpleAuthorizationInfo.addRole(userInfo.getUserType().toString());
+        simpleAuthorizationInfo.addRole(userInfo.getRoleName());
         return simpleAuthorizationInfo;
     }
 
@@ -48,11 +46,12 @@ public class AuthRealm extends AuthorizingRealm {
         // 获取token ,并转化成实体类参数所需要的格式 ,这里获取到的是用户的登录凭证,统称为userName ,可以是邮箱/手机号/账号等
         UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
         // 从数据库里查询到用户数据
-        User userInfo = userService.getUserInfoByAccount(upToken.getUsername());
-        if (userInfo != null) {
-            AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(), this.getName());
-            return authenticationInfo;
-        }
+//        UserService userService = new UserServiceImpl();
+//        User userInfo = userService.getUserInfoByAccount(upToken.getUsername());
+//        if (userInfo != null) {
+//            AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(), this.getName());
+//            return authenticationInfo;
+//        }
         return null;
     }
 }
