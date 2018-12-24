@@ -2,7 +2,7 @@ package com.microclouds;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author : https://github.com/Fanqie22
@@ -10,9 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
  * @SpringBootApplication 开启组件扫描和自动配置,
  * 相当于Spring原先的@Cnfiguration + @ComponentScan + Spring Boot的@EnableAutoConfiguration
  */
-//指定扫描包路径
 @SpringBootApplication
-//@ComponentScan(basePackages = { "com" })
+@EnableScheduling
 public class MicrocloudsApplication {
 
     public static void main(String[] args) {

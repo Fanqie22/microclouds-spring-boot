@@ -1,6 +1,7 @@
 package com.microclouds.dao.ext;
 
 import com.microclouds.pojo.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -8,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
  * @author: https://github.com/Fanqie22
  * @date : 2018年12月23日20:39:19
  */
+@Mapper
 public interface UserExtMapper {
 
     /**

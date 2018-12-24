@@ -2,12 +2,12 @@ package com.microclouds.config;
 
 import com.microclouds.pojo.User;
 import com.microclouds.service.UserService;
-import com.microclouds.service.impl.UserServiceImpl;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -16,6 +16,9 @@ import org.apache.shiro.subject.PrincipalCollection;
  * @date : 2018年12月21日11:28:38
  */
 public class AuthRealm extends AuthorizingRealm {
+
+    @Autowired
+    private UserService userService;
 
     /**
      * @param principalCollection
@@ -46,12 +49,11 @@ public class AuthRealm extends AuthorizingRealm {
         // 获取token ,并转化成实体类参数所需要的格式 ,这里获取到的是用户的登录凭证,统称为userName ,可以是邮箱/手机号/账号等
         UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
         // 从数据库里查询到用户数据
-//        UserService userService = new UserServiceImpl();
-//        User userInfo = userService.getUserInfoByAccount(upToken.getUsername());
-//        if (userInfo != null) {
-//            AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(), this.getName());
-//            return authenticationInfo;
-//        }
+        User userInfo = userService.getUserInfoByAccount(upToken.getUsername());
+        if (userInfo != null) {
+            AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(), this.getName());
+            return authenticationInfo;
+        }
         return null;
     }
 }

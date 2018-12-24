@@ -1,9 +1,8 @@
 package com.microclouds.controller;
 
-import com.microclouds.common.PropertyUtil;
+import com.microclouds.common.util.PropertyUtil;
 import com.microclouds.common.util.ResponseValue;
 import com.microclouds.entity.UserVo;
-import com.microclouds.pojo.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -25,7 +24,7 @@ import java.util.List;
 /**
  * @author : https://github.com/Fanqie22
  * @date : 2018年12月19日14:32:10
- * @description: User用控制器
+ * @description: User控制器
  */
 @Controller
 @EnableAutoConfiguration
@@ -61,7 +60,7 @@ public class LoginController {
             return responseValue;
         }
 
-        //使用Shiro框架验证用户
+        //使用Shiro框架验证用户是否登录
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken
                 = new UsernamePasswordToken(userVo.getUserMail(), userVo.getPassword());

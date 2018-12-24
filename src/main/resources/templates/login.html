@@ -1,15 +1,24 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta content="text/html;charset=UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <!--引用github的布局-->
     <link rel="stylesheet" th:href="@{/css/githubLayout.css}"/>
-    <!--<link crossorigin="anonymous" media="all" integrity="sha512-lLo2nlsdl+bHLu6PGvC2j3wfP45RnK4wKQLiPnCDcuXfU38AiD+JCdMywnF3WbJC1jaxe3lAI6AM4uJuMFBLEw==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-08fc49d3bd2694c870ea23d0906f3610.css" />-->
     <!--引用github的表单样式-->
     <link rel="stylesheet" th:href="@{/css/githubStyle.css}"/>
-    <!--<link crossorigin="anonymous" media="all" integrity="sha512-bB/TbDgAlehAOuGUHfKkkvJf0cvaIjNKXUIvS5qizmKEgtYfmerfCp/t23TMnvZJ5DMuLatwS0wW98FLO1l4gg==" rel="stylesheet" href="https://github.githubassets.com/assets/github-12f3b278e437ae91b8bc11dcaa8f135f.css" />-->
+
+    <!--<script type="text/javascript" th:src="@{/static/jquery/jquery-3.3.1.min.js}"></script>-->
+
+
+    <!--CDN引入jq-->
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/login.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>-->
+    <!--<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>-->
     <title>Welcome to MicroClouds · MicroClouds</title>
 </head>
 
@@ -41,14 +50,12 @@
         <div class="auth-form px-3" id="login">
 
             </option></form>
-            <form action="/session" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden"
-                                                                                value="&#x2713;"/><input type="hidden"
-                                                                                                         name="authenticity_token"
-                                                                                                         value="0xZXCzQEu5fJ931Ozzs5rG/TnM5Dmad0pI6wzqFyIreldAa7J8BcwnDdgoUpsJyocWOYky0mg2CNy4nA5vNaCg=="/>
+            <form id="loginForm" action="/session" accept-charset="UTF-8" method="post">
+                <input name="utf8" type="hidden" value="&#x2713;"/>
+                <input type="hidden" name="" value=""/>
                 <div class="auth-form-header p-0">
-                    <h1>Sign in to GitHub</h1>
+                    <h1>Sign in to MicroClouds</h1>
                 </div>
-
 
                 <div id="js-flash-container">
 
@@ -57,25 +64,26 @@
 
                 <div class="auth-form-body mt-3">
 
-                    <label for="login_field">
-                        Username or email address
+                    <label for="userMail">
+                        Email address
                     </label>
-                    <input type="text" name="login" id="login_field" class="form-control input-block" tabindex="1"
+                    <input name="userMail" type="text" id="userMail" class="form-control input-block" tabindex="1"
                            autocapitalize="off" autocorrect="off" autofocus="autofocus"/>
 
                     <label for="password">
-                        Password <a class="label-link" href="/password_reset">Forgot password?</a>
+                        Password
+                        <a class="label-link" href="/password_reset">Forgot password?</a>
                     </label>
-                    <input type="password" name="password" id="password" class="form-control form-control input-block"
+                    <input name="password" type="password" id="password" class="form-control form-control input-block"
                            tabindex="2"/>
 
-                    <input type="submit" name="commit" value="Sign in" tabindex="3" class="btn btn-primary btn-block"
+                    <input type="button" name="" value="Sign in" tabindex="3" class="btn btn-primary btn-block"
                            data-disable-with="Signing in…"/>
                 </div>
             </form>
 
             <p class="create-account-callout mt-3">
-                New to GitHub?
+                New to MicroClouds ?
                 <a data-ga-click="Sign in, switch to sign up" href="/join?return_to=%2Fgithub&amp;source=login">Create
                     an account</a>.
             </p>
@@ -92,12 +100,17 @@
         <li class="mr-3"><a href="https://help.github.com/articles/github-security/"
                             data-ga-click="Footer, go to security, text:security">Security</a></li>
         <li><a class="link-gray" data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact
-            GitHub</a></li>
+            MicroClouds</a></li>
     </ul>
 </div>
 
 
 </body>
-<script src="js/login.js"></script>
+<!--<script src="jquery/jquery-3.3.1.min.js" type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>-->
+<!--<script src="bootstrap/bootstrap.min.js" type="text/javascript" th:src="@{/bootstrap/bootstrap.min.js}"></script>-->
+<!--<script src="bootstrap/bootstrap_validator/js/bootstrapValidator.min.js" type="text/javascript"-->
+<!--th:src="@{/bootstrap/bootstrap_validator/js/bootstrapValidator.min.js}"></script>-->
+<!--<script type="text/javascript" th:src="@{/js/login.js}"></script>-->
+
 </html>
 

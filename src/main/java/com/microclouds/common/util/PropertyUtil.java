@@ -1,14 +1,10 @@
-package com.microclouds.common;
+package com.microclouds.common.util;
 
-
-import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 public class PropertyUtil {
 

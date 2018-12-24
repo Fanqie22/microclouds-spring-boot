@@ -1,6 +1,5 @@
 package com.microclouds.service.impl;
 
-import com.microclouds.dao.UserMapper;
 import com.microclouds.dao.ext.UserExtMapper;
 import com.microclouds.pojo.User;
 import com.microclouds.service.UserService;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    //    @Autowired
+//    @Autowired
 //    private UserMapper userMapper;
     @Autowired
     private UserExtMapper userExtMapper;
