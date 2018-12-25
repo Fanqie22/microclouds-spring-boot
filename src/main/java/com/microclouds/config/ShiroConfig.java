@@ -24,9 +24,9 @@ public class ShiroConfig {
 
     private String loginUrl = "/microclouds/login";
 
-    private String successUrl = "/main";
+    private String successUrl = "/microclouds/main";
 
-    private String unauthorizedUrl = "/unauthorized";
+    private String unauthorizedUrl = "/microclouds/unauthorized";
 
     /**
      * @param manager
@@ -63,6 +63,7 @@ public class ShiroConfig {
         // 成功登陆的页面,需要"authc" , 登陆页面 ,可匿名
         filterChainDefinitionMap.put(successUrl, "authc");
         filterChainDefinitionMap.put(loginUrl, "anon");
+        filterChainDefinitionMap.put("/microclouds/a", "anon");
         // 要用角色是admin的才可以登录,对应的拦截器是RolesAuthorizationFilter
 //      filterChainDefinitionMap.put("/admin", "roles[admin]");
         //所有的druid请求，不需要拦截，anon对应的拦截器不会进行拦截

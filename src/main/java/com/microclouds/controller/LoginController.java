@@ -1,5 +1,6 @@
 package com.microclouds.controller;
 
+import com.alibaba.druid.stat.DruidStatManagerFacade;
 import com.microclouds.common.util.PropertyUtil;
 import com.microclouds.common.util.ResponseValue;
 import com.microclouds.entity.UserVo;
@@ -9,14 +10,14 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,18 +32,26 @@ import java.util.List;
 @RequestMapping(value = "/microclouds")
 public class LoginController {
 
+    @GetMapping("/durid/stat")
+    public Object druidStat() {
+        // DruidStatManagerFacade#getDataSourceStatDataList 该方法可以获取所有数据源的监控数据，除此之外 DruidStatManagerFacade 还提供了一些其他方法，你可以按需选择使用。
+        return DruidStatManagerFacade.getInstance().getDataSourceStatDataList();
+    }
+
     /**
      * 登录页面请求, GET
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(Model model, HttpServletResponse response) {
+    public String loginPage() {
         return "login";
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
     public ResponseValue login(@Validated UserVo userVo, BindingResult bindingResult) {
         ResponseValue responseValue = new ResponseValue();
-
+        System.out.println("----------------------------- login2");
         // 后端数据校验结果,启用框架校验
         if (bindingResult.hasErrors()) {
             List<ObjectError> allErrors = bindingResult.getAllErrors();
@@ -69,6 +78,7 @@ public class LoginController {
         } catch (AuthenticationException e) {
             responseValue.setCode(PropertyUtil.failureCode);
             responseValue.setMessage("用户名或密码错误 ! ");
+            return responseValue;
         }
 
         responseValue.setCode(PropertyUtil.successCode);

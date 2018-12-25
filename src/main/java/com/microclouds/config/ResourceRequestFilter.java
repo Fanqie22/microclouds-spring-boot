@@ -79,6 +79,7 @@ public class ResourceRequestFilter extends AccessControlFilter {
                 response.getWriter().println(result);
             } else {
                 // 跳转到登录页面
+                System.out.println("********************************************0");
                 response.sendRedirect(request.getContextPath() + loginUrl);
             }
         } else { // 用户无权限
@@ -92,6 +93,7 @@ public class ResourceRequestFilter extends AccessControlFilter {
                 String result = JsonUtils.objectToJson(responseValue);
                 response.getWriter().println(result);
             } else {
+                System.out.println("******************************************");
                 response.sendRedirect(request.getContextPath() + loginUrl);
             }
         }

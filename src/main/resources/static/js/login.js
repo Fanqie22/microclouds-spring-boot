@@ -1,57 +1,60 @@
-/**
- * 用户登录
- */
-$(function(){
+$(document).ready(function () {
     $('#loginForm').bootstrapValidator({
-        message : 'This value is not valid',
-        fields : {
-            userMail : {
-                message : '帐号验证不通过',
-                validators : {
-                    notEmpty : {
-                        message : '帐号不能为空'
+        message: 'This value is not valid',
+        fields: {
+            userMail: {
+                message: '帐号验证不通过',
+                validators: {
+                    notEmpty: {
+                        message: '帐号不能为空'
                     },
-                    regexp : {
-                        regexp : /^1[3|4|5|6|7|8|9][0-9]\d{8}$|^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$/,
-                        message : '帐号必须是手机或邮箱'
+                    regexp: {
+                        regexp: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message: '这不是一个合法的邮箱地址'
                     },
                 }
             },
-            password : {
-                message : '密码验证不通过',
-                validators : {
-                    notEmpty : {
-                        message : '密码不能为空'
+            password: {
+                message: '密码验证不通过',
+                validators: {
+                    notEmpty: {
+                        message: '密码不能为空'
                     },
-                    stringLength : {
-                        min : 6,
-                        message : '密码长度至少6位'
+                    stringLength: {
+                        min: 6,
+                        max: 18,
+                        message: '密码长度6-18位'
                     }
                 }
             },
         }
-    }).on('success.form.bv',function(e) {
-        // 阻止表单提交
+
+    }).on('success.form.bv', function (e) {
+        // Prevent form submission
         e.preventDefault();
-        // 获取form表单实例
+
+        // Get the form instance
         var $form = $(e.target);
-        // 获取validator
+
+        // Get the BootstrapValidator instance
         var bv = $form.data('bootstrapValidator');
 
-        // 异步提交数据
-        $.post($form.attr('action'), $form.serialize(),function(result) {
-            if (result.code == '00000') {
+        // Use Ajax to submit form data
+        $.post($form.attr('action'), $form.serialize(), function (result) {
+            alert("dddd");
+            // ... Process the result ...
+            if (result.code == '00200') {
                 // 登陆成功
-                if(result.data){
-                    location.href=result.data;
-
+                if (result.data) {
+                    location.href = result.data;
                     return;
                 }
-
-                location.href = contextPath + '/workbench/index';
+                aert("hhaha");
+                location.href = contextPath + '';
             } else {
                 // 登陆失败，显示错误信息
-                $('#dvErrorMsg').text(result.message).css("color","red");
+                $("#displayDiv").show();
+                $('#dvErrorMsg').text(result.message).css("color", "red");
             }
         }, 'json');
     });

@@ -2,23 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <!--引用github的布局-->
+    <!--引用github的布局样式-->
     <link rel="stylesheet" th:href="@{/css/githubLayout.css}"/>
-    <!--引用github的表单样式-->
     <link rel="stylesheet" th:href="@{/css/githubStyle.css}"/>
-
-    <!--<script type="text/javascript" th:src="@{/static/jquery/jquery-3.3.1.min.js}"></script>-->
-
-
-    <!--CDN引入jq-->
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
+    <!--引入bootstrap.css以及bootstrapValidator.css-->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrapValidator.min.css}"/>
+    <!--引入js ,spring boot + Thymeleaf项目js和css只能放在指定的文件夹下:static和templates-->
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrapValidator.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/login.js}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
-    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>-->
-    <!--<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>-->
     <title>Welcome to MicroClouds · MicroClouds</title>
 </head>
 
@@ -26,7 +20,6 @@
 
 <!--icon-->
 <div class="position-relative js-header-wrapper ">
-    <!--<a href="#start-of-content" tabindex="1" class="px-2 py-4 bg-blue text-white show-on-focus js-skip-to-content">Skip to content</a>-->
     <div id="js-pjax-loader-bar" class="pjax-loader-bar">
         <div class="progress"></div>
     </div>
@@ -34,7 +27,6 @@
         <div class="container clearfix width-full text-center">
             <a class="header-logo" href="#" aria-label="Homepage"
                data-ga-click="(Logged out) Header, go to homepage, icon:logo-wordmark">
-                <!--<svg height="48" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="48" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>-->
                 <img src="/img/icon48.png" class="img-responsive" alt="MicroClouds">
             </a>
         </div>
@@ -43,49 +35,53 @@
 
 <!--main-->
 <div role="main" class="application-main " data-commit-hovercards-enabled>
-
     <div id="js-pjax-container" data-pjax-container>
-
-
         <div class="auth-form px-3" id="login">
-
-            </option></form>
-            <form id="loginForm" action="/session" accept-charset="UTF-8" method="post">
-                <input name="utf8" type="hidden" value="&#x2713;"/>
-                <input type="hidden" name="" value=""/>
+            <form id="loginForm" th:action="@{/microclouds/login}" th:method="post" data-parsley-validate="true" >
                 <div class="auth-form-header p-0">
                     <h1>Sign in to MicroClouds</h1>
                 </div>
-
-                <div id="js-flash-container">
-
+                <div id="displayDiv" style="display: none;">
+                    <div class="flash flash-full flash-error">
+                        <div class="container">
+                            <button onclick="" class="flash-close js-flash-close" type="button" aria-label="Dismiss this message">
+                                <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16"
+                                     aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/>
+                                </svg>
+                            </button>
+                            <div id="dvErrorMsg"></div>
+                        </div>
+                    </div>
                 </div>
-
-
                 <div class="auth-form-body mt-3">
-
-                    <label for="userMail">
-                        Email address
-                    </label>
-                    <input name="userMail" type="text" id="userMail" class="form-control input-block" tabindex="1"
-                           autocapitalize="off" autocorrect="off" autofocus="autofocus"/>
-
-                    <label for="password">
-                        Password
-                        <a class="label-link" href="/password_reset">Forgot password?</a>
-                    </label>
-                    <input name="password" type="password" id="password" class="form-control form-control input-block"
-                           tabindex="2"/>
-
-                    <input type="button" name="" value="Sign in" tabindex="3" class="btn btn-primary btn-block"
-                           data-disable-with="Signing in…"/>
+                    <div class="form-group">
+                        <label for="userMail">
+                            Email address
+                        </label>
+                        <input name="userMail" type="text" id="userMail" class="form-control input-block" tabindex="1"
+                               autocapitalize="off" autocorrect="off" autofocus="autofocus"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">
+                            Password
+                            <a class="label-link" href="/password_reset">Forgot password?</a>
+                        </label>
+                        <input name="password" type="password" id="password"
+                               class="form-control form-control input-block"
+                               tabindex="2"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="" value="Sign in" tabindex="3" class="btn btn-primary btn-block"
+                               data-disable-with="Signing in…"/>
+                    </div>
                 </div>
             </form>
 
             <p class="create-account-callout mt-3">
-                New to MicroClouds ?
-                <a data-ga-click="Sign in, switch to sign up" href="/join?return_to=%2Fgithub&amp;source=login">Create
-                    an account</a>.
+                No account ?
+                <a data-ga-click="Sign in, switch to sign up" href="">
+                    Create an account</a>.
             </p>
         </div>
 
@@ -95,22 +91,27 @@
 
 <div class="footer container-lg p-responsive py-6 mt-6 f6" role="contentinfo">
     <ul class="list-style-none d-flex flex-justify-center">
-        <li class="mr-3"><a href="/site/terms" data-ga-click="Footer, go to terms, text:terms">Terms</a></li>
-        <li class="mr-3"><a href="/site/privacy" data-ga-click="Footer, go to privacy, text:privacy">Privacy</a></li>
-        <li class="mr-3"><a href="https://help.github.com/articles/github-security/"
-                            data-ga-click="Footer, go to security, text:security">Security</a></li>
-        <li><a class="link-gray" data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact
-            MicroClouds</a></li>
+        <li class="mr-3">
+            <a href="/site/terms" data-ga-click="Footer, go to terms, text:terms">Terms</a>
+        </li>
+        <li class="mr-3">
+            <a href="/site/privacy" data-ga-click="Footer, go to privacy, text:privacy">Privacy
+            </a></li>
+        <li class="mr-3">
+            <a href="" data-ga-click="Footer, go to security, text:security">Security</a>
+        </li>
+        <li>
+            <a class="link-gray" data-ga-click="Footer, go to contact, text:contact" href="">Contact
+            MicroClouds</a>
+        </li>
     </ul>
 </div>
 
 
 </body>
-<!--<script src="jquery/jquery-3.3.1.min.js" type="text/javascript" th:src="@{/jquery/jquery-3.3.1.min.js}"></script>-->
-<!--<script src="bootstrap/bootstrap.min.js" type="text/javascript" th:src="@{/bootstrap/bootstrap.min.js}"></script>-->
-<!--<script src="bootstrap/bootstrap_validator/js/bootstrapValidator.min.js" type="text/javascript"-->
-<!--th:src="@{/bootstrap/bootstrap_validator/js/bootstrapValidator.min.js}"></script>-->
-<!--<script type="text/javascript" th:src="@{/js/login.js}"></script>-->
+<script th:inline="javascript">
+    var contextPath = $('#contextPath').attr('href');
+</script>
 
 </html>
 

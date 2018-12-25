@@ -50,6 +50,7 @@ public class AuthRealm extends AuthorizingRealm {
         UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
         // 从数据库里查询到用户数据
         User userInfo = userService.getUserInfoByAccount(upToken.getUsername());
+        System.out.println("********************************** token ");
         if (userInfo != null) {
             AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(), this.getName());
             return authenticationInfo;
