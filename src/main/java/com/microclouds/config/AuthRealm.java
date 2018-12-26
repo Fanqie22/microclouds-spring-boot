@@ -49,12 +49,14 @@ public class AuthRealm extends AuthorizingRealm {
         // 获取token ,并转化成实体类参数所需要的格式 ,这里获取到的是用户的登录凭证,统称为userName ,可以是邮箱/手机号/账号等
         UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
         // 从数据库里查询到用户数据
+        System.out.println("Shiro : 启用认证");
         User userInfo = userService.getUserInfoByAccount(upToken.getUsername());
-        System.out.println("********************************** token ");
         if (userInfo != null) {
-            AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(), this.getName());
+            AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo.getUserMail(), userInfo.getPassword(), this.getName());
+            System.out.println("Shiro : 认证成功");
             return authenticationInfo;
         }
+        System.out.println("Shiro : 认证失败");
         return null;
     }
 }

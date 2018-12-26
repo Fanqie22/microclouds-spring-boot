@@ -9,7 +9,7 @@ import org.apache.shiro.crypto.hash.Md5Hash;
  */
 public class SecurityUtil {
 
-    private static String salt = "microclouds";
+    private static String salt = "microcloudsPasswordByMD5";
     /**
      * MD5加密
      * @param content

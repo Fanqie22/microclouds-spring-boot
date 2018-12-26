@@ -34,7 +34,10 @@ public class LoginController {
 
     @GetMapping("/durid/stat")
     public Object druidStat() {
-        // DruidStatManagerFacade#getDataSourceStatDataList 该方法可以获取所有数据源的监控数据，除此之外 DruidStatManagerFacade 还提供了一些其他方法，你可以按需选择使用。
+        /**
+         * DruidStatManagerFacade#getDataSourceStatDataList 该方法可以获取所有数据源的监控数据
+         * 除此之外 DruidStatManagerFacade 还提供了一些其他方法，你可以按需选择使用。
+         */
         return DruidStatManagerFacade.getInstance().getDataSourceStatDataList();
     }
 
@@ -51,7 +54,6 @@ public class LoginController {
     @ResponseBody
     public ResponseValue login(@Validated UserVo userVo, BindingResult bindingResult) {
         ResponseValue responseValue = new ResponseValue();
-        System.out.println("----------------------------- login2");
         // 后端数据校验结果,启用框架校验
         if (bindingResult.hasErrors()) {
             List<ObjectError> allErrors = bindingResult.getAllErrors();
