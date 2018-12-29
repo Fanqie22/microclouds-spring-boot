@@ -60,22 +60,7 @@ public class LoginController {
     @ResponseBody
     public ResponseValue login(@Validated UserVo userVo, BindingResult bindingResult) {
         ResponseValue responseValue = new ResponseValue();
-        // 后端数据校验结果,启用框架校验
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> allErrors = bindingResult.getAllErrors();
-            List<String> list = new ArrayList<String>();
-            for (ObjectError objectError : allErrors) {
-                try {
-                    list.add(new String(objectError.getDefaultMessage().getBytes("ISO-8859-1"), "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
-            responseValue.setCode(PropertyUtil.paramErrorCode);
-            responseValue.setMessage("参数错误");
-            responseValue.setData(list);
-            return responseValue;
-        }
+
 
         //使用Shiro框架验证用户是否登录
         Subject subject = SecurityUtils.getSubject();
@@ -107,18 +92,43 @@ public class LoginController {
     /**
      * 注册操作,POST
      */
-    @RequestMapping(value="/register",method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseValue register(@Validated UserVo vo,BindingResult binding){
-        ResponseValue responseValue=new ResponseValue();
+    public ResponseValue register(@Validated UserVo vo, BindingResult binding) {
+        ResponseValue responseValue = new ResponseValue();
 
-        User user=new User();
-//        user.set
+        // 后端数据校验结果,启用框架校验
+        if (binding.hasErrors()) {
+            List<ObjectError> allErrors = binding.getAllErrors();
+            List<String> list = new ArrayList<String>();
+            for (ObjectError objectError : allErrors) {
+                try {
+                    list.add(new String(objectError.getDefaultMessage().getBytes("ISO-8859-1"), "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+            responseValue.setCode(PropertyUtil.paramErrorCode);
+            responseValue.setMessage("参数错误");
+            responseValue.setData(list);
+            return responseValue;
+        }
 
-        boolean registerBool=userService.userRegister(user);
+        User user = new User();
+        user.setUserMail(vo.getUserMail());
+        user.setPassword(vo.getPassword());
+        user.setRoleName("user");//TODO ,修改数据库字段
 
+        boolean registerBool = userService.userRegister(user);
 
+        if (registerBool) {
+            responseValue.setCode(PropertyUtil.successCode);
+            responseValue.setMessage("注册成功 ! ");
+            return responseValue;
+        }
 
+        responseValue.setCode(PropertyUtil.failureCode);
+        responseValue.setMessage("注册失败 ! ");
         return responseValue;
     }
 
@@ -128,5 +138,10 @@ public class LoginController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String mainPage() {
         return "main";
+    }
+
+
+    private Boolean Validated(BindingResult binding){
+        return false;
     }
 }
