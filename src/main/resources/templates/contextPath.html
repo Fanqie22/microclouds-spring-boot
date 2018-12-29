@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" th:inline="javascript">
+        var basePath =[[${#httpServletRequest.getScheme() + "://" + #httpServletRequest.getServerName() + ":" + #httpServletRequest.getServerPort() + #httpServletRequest.getContextPath()}]];
+        function getBaseUrl() {
+            $("#basePathUrl").val(basePath);
+            var a = $("#basePathUrl").val();
+            return a;
+        }
+    </script>
+</head>
+<body>
+<!-- 引入url -->
+<input type="hidden" id="basePathUrl"/>
+</body>
+</html>

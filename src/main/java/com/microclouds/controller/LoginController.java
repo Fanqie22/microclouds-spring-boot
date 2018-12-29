@@ -4,10 +4,13 @@ import com.alibaba.druid.stat.DruidStatManagerFacade;
 import com.microclouds.common.util.PropertyUtil;
 import com.microclouds.common.util.ResponseValue;
 import com.microclouds.entity.UserVo;
+import com.microclouds.pojo.User;
+import com.microclouds.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,6 +34,9 @@ import java.util.List;
 @EnableAutoConfiguration
 @RequestMapping(value = "/microclouds")
 public class LoginController {
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/durid/stat")
     public Object druidStat() {
@@ -76,6 +82,7 @@ public class LoginController {
         UsernamePasswordToken usernamePasswordToken
                 = new UsernamePasswordToken(userVo.getUserMail(), userVo.getPassword());
         try {
+            // login方法将会验证用户的信息,如果验证不通过,抛出异常
             subject.login(usernamePasswordToken);
         } catch (AuthenticationException e) {
             responseValue.setCode(PropertyUtil.failureCode);
@@ -85,8 +92,41 @@ public class LoginController {
 
         responseValue.setCode(PropertyUtil.successCode);
         responseValue.setMessage("登陆成功 ! ");
-        responseValue.setData(userVo);
 
         return responseValue;
+    }
+
+    /**
+     * 注册请求, GET
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String registerPage() {
+        return "register";
+    }
+
+    /**
+     * 注册操作,POST
+     */
+    @RequestMapping(value="/register",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseValue register(@Validated UserVo vo,BindingResult binding){
+        ResponseValue responseValue=new ResponseValue();
+
+        User user=new User();
+//        user.set
+
+        boolean registerBool=userService.userRegister(user);
+
+
+
+        return responseValue;
+    }
+
+    /**
+     * 首页请求, GET
+     */
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    public String mainPage() {
+        return "main";
     }
 }

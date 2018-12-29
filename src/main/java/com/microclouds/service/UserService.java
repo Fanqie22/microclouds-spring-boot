@@ -22,4 +22,11 @@ public interface UserService {
      * @description : 根据id查找角色名字
      */
 //    String getUserRoleById(Integer id);
+
+    /**
+     * @param user
+     * @return
+     * @description:用户注册
+     */
+    boolean userRegister(User user);
 }

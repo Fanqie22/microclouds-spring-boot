@@ -72,6 +72,10 @@
             <property name="modelOnly" value="false"/>
             <domainObjectRenamingRule searchString="^Tbl" replaceString=""/>
         </table>
+        <table tableName="tb_sf_identity_verification">
+            <property name="modelOnly" value="false"/>
+            <domainObjectRenamingRule searchString="^Tbl" replaceString=""/>
+        </table>
 
 
     </context>

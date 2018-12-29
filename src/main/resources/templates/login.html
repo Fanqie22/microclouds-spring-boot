@@ -38,6 +38,7 @@
     <div id="js-pjax-container" data-pjax-container>
         <div class="auth-form px-3" id="login">
             <form id="loginForm" th:action="@{/microclouds/login}" th:method="post" data-parsley-validate="true" >
+                <span th:include="contextPath::html"></span>
                 <div class="auth-form-header p-0">
                     <h1>Sign in to MicroClouds</h1>
                 </div>
@@ -80,7 +81,7 @@
 
             <p class="create-account-callout mt-3">
                 No account ?
-                <a data-ga-click="Sign in, switch to sign up" href="">
+                <a data-ga-click="Sign in, switch to sign up" th:href="@{/microclouds/register}">
                     Create an account</a>.
             </p>
         </div>
@@ -107,11 +108,6 @@
     </ul>
 </div>
 
-
 </body>
-<script th:inline="javascript">
-    var contextPath = $('#contextPath').attr('href');
-</script>
-
 </html>
 

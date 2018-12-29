@@ -1,7 +1,20 @@
 $(document).ready(function () {
-    $('#loginForm').bootstrapValidator({
+    $('#RegisterForm').bootstrapValidator({
         message: 'This value is not valid',
         fields: {
+            userName: {
+                message: '姓名验证不通过',
+                validators: {
+                    notEmpty: {
+                        message: '姓名不能为空'
+                    },
+                    stringLength: {
+                        min: 1,
+                        max: 18,
+                        message: '姓名长度1-18位'
+                    }
+                }
+            },
             userMail: {
                 message: '帐号验证不通过',
                 validators: {
