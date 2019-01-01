@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 23/12/2018 23:43:54
+ Date: 01/01/2019 18:32:30
 */
 
 SET NAMES utf8mb4;
@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `user_detail`;
 CREATE TABLE `user_detail`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增id,唯一标识详细用户信息表的记录',
   `user_id` int(11) UNSIGNED NOT NULL COMMENT 'user表的id,联结user表',
-  `user_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户的姓名',
+  `real_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户的姓名',
   `phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话号码',
   `user_mail` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `province` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户的详细地址-省份',
@@ -32,14 +32,14 @@ CREATE TABLE `user_detail`  (
   `area` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户的详细地址-区域',
   `birthday` date NULL DEFAULT NULL COMMENT '生日,yyyy-mm-dd',
   `education` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学历,可填写具体大学,学校',
-  `sex` bit(1) NULL DEFAULT NULL COMMENT '性别,0-女,1-男',
+  `sex` tinyint(1) NULL DEFAULT NULL COMMENT '性别,0-女,1-男',
   `signature` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '个性签名',
   `social_account` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '社交账号',
   `company` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '公司,工作的地方',
   `icon` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像的地址',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  `del_flag` smallint(5) UNSIGNED NULL DEFAULT NULL COMMENT '状态,0-正常,1-已被删除',
+  `del_flag` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT NULL COMMENT '状态,0-正常,1-已被删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 

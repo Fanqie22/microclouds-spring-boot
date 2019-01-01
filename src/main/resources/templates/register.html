@@ -13,7 +13,7 @@
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrapValidator.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/register.js}"></script>
-    <title>Sign up MicroClouds · MicroClouds</title>
+    <title>注册微云账号 · MicroClouds</title>
 </head>
 
 <body class="logged-out env-production page-responsive min-width-0 signup">
@@ -23,16 +23,17 @@
     <div class="bg-shade-gradient">
         <div class="container-lg p-responsive py-5">
             <div class="setup-header setup-org">
-                <h1>Join MicroClouds</h1>
-                <p class="lead">The best way to design, build, and ship software.</p>
+                <h1>加入微云</h1>
+                <p class="lead">存储文件、文档、用户下载或备份的最佳方法</p>
             </div>
 
             <div class="d-md-flex flex-justify-between gutter-md-spacious ">
                 <div class="col-sm-8 col-md-6 setup-form-container">
 
-                    <form th:action="@{/microclouds/register}" autocomplete="off" id="RegisterForm" class="setup-form js-signup-form js-octocaptcha-parent"  accept-charset="UTF-8" method="post">
+                    <form th:action="@{/microclouds/registers}" autocomplete="off" id="RegisterForm" class="setup-form js-signup-form js-octocaptcha-parent"  accept-charset="UTF-8" method="post">
+                        <span th:include="contextPath::html"></span>
                         <h2 class="f2-light mb-1">
-                            Create your personal account
+                            创建您的个人账号
                         </h2>
                         <div class="form-group">
                             <dl class="form-group required">
@@ -68,7 +69,7 @@
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary js-octocaptcha-form-submit">
-                                Create an account
+                                开始创建
                             </button>
                         </div>
                     </form>
@@ -76,17 +77,17 @@
 
                 <div class="d-none d-md-block col-md-4">
                     <div class="setup-info-module">
-                        <h2>You’ll love MicroClouds</h2>
+                        <h2>你会喜欢上微云</h2>
                         <ul class="features-list">
-                            <li><strong>Unlimited</strong> collaborators</li>
-                            <li><strong>Unlimited</strong> public repositories</li>
+                            <li><strong>免费的</strong> 文件存储系统</li>
+                            <li><strong>无限的</strong> 公共存储库</li>
                             <li class="list-divider"></li>
                             <li><svg class="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg> Great communication</li>
                             <li><svg class="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg> Frictionless development</li>
                             <li><svg class="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg> Open source community</li>
-                            <li><svg class="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg> Frictionless development</li>
-                            <li><svg class="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg> Frictionless development</li>
-                            <li><svg class="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg> Frictionless development</li>
+                            <li><svg class="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg> Secure File Storage</li>
+                            <li><svg class="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg> Simple and fast file hosting</li>
+                            <li><svg class="octicon octicon-check" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg> Multi-channel management of documents</li>
                         </ul>
                     </div>
                 </div>

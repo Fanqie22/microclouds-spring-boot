@@ -3,6 +3,8 @@ package com.microclouds.controller;
 import com.alibaba.druid.stat.DruidStatManagerFacade;
 import com.microclouds.common.util.PropertyUtil;
 import com.microclouds.common.util.ResponseValue;
+import com.microclouds.common.util.SecurityUtil;
+import com.microclouds.entity.RestPasswordDto;
 import com.microclouds.entity.UserVo;
 import com.microclouds.pojo.User;
 import com.microclouds.service.UserService;
@@ -12,7 +14,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -21,8 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +43,8 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private JavaMailSender mailSender;
 
     @GetMapping("/durid/stat")
     public Object druidStat() {
@@ -61,6 +69,22 @@ public class LoginController {
     public ResponseValue login(@Validated UserVo userVo, BindingResult bindingResult) {
         ResponseValue responseValue = new ResponseValue();
 
+        // 后端数据校验结果,启用框架校验
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> allErrors = bindingResult.getAllErrors();
+            List<String> list = new ArrayList<String>();
+            for (ObjectError objectError : allErrors) {
+                try {
+                    list.add(new String(objectError.getDefaultMessage().getBytes("ISO-8859-1"), "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+            responseValue.setCode(PropertyUtil.paramErrorCode);
+            responseValue.setMessage("参数错误");
+            responseValue.setData(list);
+            return responseValue;
+        }
 
         //使用Shiro框架验证用户是否登录
         Subject subject = SecurityUtils.getSubject();
@@ -92,7 +116,7 @@ public class LoginController {
     /**
      * 注册操作,POST
      */
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/registers", method = RequestMethod.POST)
     @ResponseBody
     public ResponseValue register(@Validated UserVo vo, BindingResult binding) {
         ResponseValue responseValue = new ResponseValue();
@@ -116,8 +140,13 @@ public class LoginController {
 
         User user = new User();
         user.setUserMail(vo.getUserMail());
-        user.setPassword(vo.getPassword());
-        user.setRoleName("user");//TODO ,修改数据库字段
+        user.setRoleName("user");
+        user.setUserName(vo.getUserName());
+        user.setCreateTime(new Date());
+        user.setDelFlag(false);
+
+        // 使用MD5加密密码
+        user.setPassword(SecurityUtil.encryptByMD5(vo.getPassword()));
 
         boolean registerBool = userService.userRegister(user);
 
@@ -128,20 +157,115 @@ public class LoginController {
         }
 
         responseValue.setCode(PropertyUtil.failureCode);
-        responseValue.setMessage("注册失败 ! ");
+        responseValue.setMessage("注册失败,请重试 ! ");
         return responseValue;
     }
 
     /**
-     * 首页请求, GET
+     * 忘记密码请求, get
      */
-    @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String mainPage() {
-        return "main";
+    @RequestMapping(value = "/forgetpassword", method = RequestMethod.GET)
+    public String forgetPasswordPage() {
+        return "forgetPassword";
     }
 
 
-    private Boolean Validated(BindingResult binding){
-        return false;
+    /**
+     * 重置密码 ,提供需要重置的邮箱账号 ,post
+     */
+    @RequestMapping(value = "/restpassword", method = RequestMethod.POST)
+    public String passwordRest(Model model, HttpServletRequest request) {
+        // 检查邮箱安全,是否具备修改密码条件
+        String userMail = request.getParameter("userMail");
+        if (userMail == null || userMail.length() < 2) {
+            return "paramError";//TODO
+        }
+
+        model.addAttribute("userMail", request.getParameter("userMail"));
+
+        return "restPassword";
     }
+
+    /**
+     *
+     */
+    @RequestMapping(value = "/getmailcode", method = RequestMethod.POST)
+    @ResponseBody
+    public String getMailCode(String userMail) {
+        if (userMail.length() < 2) {
+            return null;
+        }
+        int codeNum = (int) ((Math.random() * 9 + 1) * 100000);
+        //发送邮件
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//        mailMessage.setFrom(environment.getProperty("spring.mail.username"));
+//        mailMessage.setTo(userMail);
+//        mailMessage.setSubject("microcloudsecurity");
+//        mailMessage.setText("您正在进行重置密码操作,您的验证码是 : " + codeNum);
+//        mailSender.send(mailMessage);
+
+        return codeNum + "";
+    }
+
+    /**
+     * 重置密码请求, post
+     */
+    @RequestMapping(value = "/passwordrest", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseValue restPassword(RestPasswordDto passwordDto) {
+        ResponseValue responseValue = new ResponseValue();
+
+        String mailCode = passwordDto.getMailCode();
+        String userMailCode = passwordDto.getGetMailCode();
+
+        if (!mailCode.equals(userMailCode)) {
+            responseValue.setCode(PropertyUtil.paramErrorCode);
+            responseValue.setMessage("验证码错误");
+            return responseValue;
+        }
+
+        //修改密码进数据库
+        // 使用MD5加密密码
+        String passwordMD5 = SecurityUtil.encryptByMD5(passwordDto.getPassword());
+        boolean updateBool = userService.updatePasswordByMail(passwordDto.getUserMail(), passwordMD5);
+
+        if (updateBool) {
+            responseValue.setCode(PropertyUtil.successCode);
+            responseValue.setMessage("修改密码成功 ! ");
+            return responseValue;
+        }
+
+        responseValue.setCode(PropertyUtil.failureCode);
+        responseValue.setMessage("系统错误,请重试 !");
+        return responseValue;
+    }
+
+
+    /**
+     * 邮箱校验
+     *
+     * @param userMail
+     * @return
+     */
+    @RequestMapping(value = "/validateusermail")
+    @ResponseBody
+    public String validateEmail(String userMail) {
+        boolean isExist = userService.isEmailExist(userMail);
+        return "{\"valid\":" + !isExist + "}";
+    }
+
+    /**
+     * 邮箱校验
+     *
+     * @param userMail
+     * @return
+     */
+    @RequestMapping(value = "/validaterestmail")
+    @ResponseBody
+    public String validateRestMail(String userMail) {
+        boolean isExist = userService.isEmailExist(userMail);
+        System.out.println("---------------isexit: " + isExist);
+        return "{\"valid\":" + isExist + "}";
+    }
+
 }

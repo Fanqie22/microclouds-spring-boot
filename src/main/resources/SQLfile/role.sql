@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 23/12/2018 23:44:09
+ Date: 01/01/2019 18:32:20
 */
 
 SET NAMES utf8mb4;
@@ -26,7 +26,7 @@ CREATE TABLE `role`  (
   `role_name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名字',
   `remark` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `del_flag` smallint(5) UNSIGNED NULL DEFAULT NULL COMMENT '状态',
+  `del_flag` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 

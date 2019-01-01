@@ -2,10 +2,8 @@ package com.microclouds.config;
 
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +21,22 @@ import java.util.Map;
 public class ShiroConfig {
 
     private String loginUrl = "/microclouds/login";
+
+    private String registerUrl = "/microclouds/register";
+
+    private String registersUrl = "/microclouds/registers";
+
+    private String forgetPasswordUrl = "/microclouds/forgetpassword";
+
+    private String restPasswordsUrl = "/microclouds/restpassword";
+
+    private String passwordRestUrl = "/microclouds/passwordrest";
+
+    private String getmailcodeUrl = "/microclouds/getmailcode";
+
+    private String validateusermailUrl = "/microclouds/validateusermail";
+
+    private String validaterestmailUrl = "/microclouds/validaterestmail";
 
     private String successUrl = "/microclouds/main";
 
@@ -45,7 +59,7 @@ public class ShiroConfig {
         //提供登陆成功的url
         shiroFilterFactoryBean.setSuccessUrl(successUrl);
         //提供验证不通过的url
-        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
+        shiroFilterFactoryBean.setUnauthorizedUrl(unauthorizedUrl);
 
         // 自定义过滤器
         Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
@@ -60,10 +74,17 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
-        // 成功登陆的页面,需要"authc" , 登陆页面 ,可匿名
+        // 成功登陆的页面,需要"authc" , 其他不需要验证的页面 ,可匿名anon
         filterChainDefinitionMap.put(successUrl, "authc");
         filterChainDefinitionMap.put(loginUrl, "anon");
-        filterChainDefinitionMap.put("/microclouds/a", "anon");
+        filterChainDefinitionMap.put(registerUrl, "anon");
+        filterChainDefinitionMap.put(registersUrl, "anon");
+        filterChainDefinitionMap.put(forgetPasswordUrl, "anon");
+        filterChainDefinitionMap.put(restPasswordsUrl, "anon");
+        filterChainDefinitionMap.put(passwordRestUrl, "anon");
+        filterChainDefinitionMap.put(getmailcodeUrl, "anon");
+        filterChainDefinitionMap.put(validateusermailUrl, "anon");
+        filterChainDefinitionMap.put(validaterestmailUrl, "anon");
         // 要用角色是admin的才可以登录,对应的拦截器是RolesAuthorizationFilter
 //      filterChainDefinitionMap.put("/admin", "roles[admin]");
         //所有的druid请求，不需要拦截，anon对应的拦截器不会进行拦截
@@ -125,18 +146,18 @@ public class ShiroConfig {
      * 以下AuthorizationAttributeSourceAdvisor,DefaultAdvisorAutoProxyCreator
      * 两个类是为了支持shiro注解 , 在view ( jsp ,html )注解
      * */
-    @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager") SecurityManager securityManager) {
-        AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
-        advisor.setSecurityManager(securityManager);
-        return advisor;
-    }
-
-    @Bean
-    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
-        DefaultAdvisorAutoProxyCreator creator = new DefaultAdvisorAutoProxyCreator();
-        creator.setProxyTargetClass(true);
-        return creator;
-    }
+//    @Bean
+//    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager") SecurityManager securityManager) {
+//        AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
+//        advisor.setSecurityManager(securityManager);
+//        return advisor;
+//    }
+//
+//    @Bean
+//    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+//        DefaultAdvisorAutoProxyCreator creator = new DefaultAdvisorAutoProxyCreator();
+//        creator.setProxyTargetClass(true);
+//        return creator;
+//    }
 
 }

@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    // 获取路径
+    var contextPath = getBaseUrl();
     $('#RegisterForm').bootstrapValidator({
         message: 'This value is not valid',
         fields: {
@@ -25,6 +27,10 @@ $(document).ready(function () {
                         regexp: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                         message: '这不是一个合法的邮箱地址'
                     },
+                    remote: {
+                        url: contextPath + '/microclouds/validateusermail',
+                        message: '此邮箱已经注册'
+                    }
                 }
             },
             password: {
@@ -43,6 +49,7 @@ $(document).ready(function () {
         }
 
     }).on('success.form.bv', function (e) {
+
         // Prevent form submission
         e.preventDefault();
 
@@ -52,20 +59,19 @@ $(document).ready(function () {
         // Get the BootstrapValidator instance
         var bv = $form.data('bootstrapValidator');
 
-        // 获取路径
-        var contextPath = getBaseUrl();
 
         // Use Ajax to submit form data
         $.post($form.attr('action'), $form.serialize(), function (result) {
             if (result.code == '00200') {
                 // 登陆成功
+                alert("注册成功!");
                 if (result.data) {
                     location.href = result.data;
                     return;
                 }
                 location.href = contextPath + '/microclouds/main';
             } else {
-                // 登陆失败，显示错误信息
+                // 注册失败，显示错误信息
                 $("#displayDiv").show();
                 $('#dvErrorMsg').text(result.message).css("color", "red");
             }

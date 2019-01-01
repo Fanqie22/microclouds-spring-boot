@@ -29,4 +29,19 @@ public interface UserService {
      * @description:用户注册
      */
     boolean userRegister(User user);
+
+    /**
+     * 修改密码
+     *
+     * @param userMail
+     * @return
+     */
+    boolean updatePasswordByMail(String userMail, String password);
+
+    /**
+     * 邮箱校验
+     * @param userMail
+     * @return
+     */
+    boolean isEmailExist(String userMail);
 }

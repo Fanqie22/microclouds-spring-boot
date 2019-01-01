@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 23/12/2018 23:44:20
+ Date: 01/01/2019 18:32:03
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `authority`  (
   `remark` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `role_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '对应的角色',
   `create_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '时间',
-  `del_flag` smallint(5) UNSIGNED NULL DEFAULT NULL COMMENT '状态',
+  `del_flag` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 

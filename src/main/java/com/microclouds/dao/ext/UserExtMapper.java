@@ -19,4 +19,20 @@ public interface UserExtMapper {
      * @return
      */
     User selectByAccount(@Param("user_mail") String account);
+
+    /**
+     * 修改密码
+     *
+     * @param userMail
+     * @param password
+     * @return
+     */
+    Integer updatePasswordByMail(@Param("userMail") String userMail, @Param("password") String password);
+
+    /**
+     * 邮件校验
+     * @param userMail
+     * @return
+     */
+    String isEmailExist(@Param("userMail") String userMail);
 }

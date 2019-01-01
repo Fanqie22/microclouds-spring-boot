@@ -1,5 +1,6 @@
 package com.microclouds.config;
 
+import com.microclouds.common.util.PropertyUtil;
 import com.microclouds.common.util.ResponseValue;
 import com.microclouds.common.util.JsonUtils;
 import com.microclouds.pojo.User;
@@ -72,14 +73,13 @@ public class ResourceRequestFilter extends AccessControlFilter {
             // ajax请求
             if (header != null && header.equalsIgnoreCase("XMLHttpRequest")) {
                 ResponseValue responseValue = new ResponseValue();
-                responseValue.setCode("PropertyUtil.logoutCode");//TODO
+                responseValue.setCode(PropertyUtil.timeOut);
                 responseValue.setMessage("登录超时");
                 // 转换成json格式返回
                 String result = JsonUtils.objectToJson(responseValue);
                 response.getWriter().println(result);
             } else {
                 // 跳转到登录页面
-                System.out.println("********************************************0");
                 response.sendRedirect(request.getContextPath() + loginUrl);
             }
         } else { // 用户无权限
@@ -87,13 +87,12 @@ public class ResourceRequestFilter extends AccessControlFilter {
             if (header != null && header.equalsIgnoreCase("XMLHttpRequest")) {
                 System.out.println("header = " + header);
                 ResponseValue responseValue = new ResponseValue();
-                responseValue.setCode("PropertyUtil.unAuthcCode"); //TODO ,这里的code自己定义
+                responseValue.setCode(PropertyUtil.unAuthCode);
                 responseValue.setMessage("用户无权限");
                 // 转换成json格式返回
                 String result = JsonUtils.objectToJson(responseValue);
                 response.getWriter().println(result);
             } else {
-                System.out.println("******************************************");
                 response.sendRedirect(request.getContextPath() + loginUrl);
             }
         }

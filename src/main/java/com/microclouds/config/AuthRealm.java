@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author: https://github.com/Fanqie22
  * @date : 2018年12月21日11:28:38
  */
+
 public class AuthRealm extends AuthorizingRealm {
 
     @Autowired

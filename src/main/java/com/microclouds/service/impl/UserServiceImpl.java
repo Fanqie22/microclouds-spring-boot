@@ -30,4 +30,16 @@ public class UserServiceImpl implements UserService {
         int count = userMapper.insertSelective(user);
         return count > 0;
     }
+
+    @Override
+    public boolean updatePasswordByMail(String userMail, String password) {
+        int count = userExtMapper.updatePasswordByMail(userMail, password);
+        return count > 0;
+    }
+
+    @Override
+    public boolean isEmailExist(String userMail) {
+        String count = userExtMapper.isEmailExist(userMail);
+        return count != null && count.length() > 2;
+    }
 }
