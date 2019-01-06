@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!--标题栏：-->
+    <link rel="icon" href="/img/icon48.png" type="image/x-icon">
+    <!--收藏夹:-->
+    <link rel="shortcut icon" href="/img/icon48.png" type="image/x-icon">
     <!--引用github的布局样式-->
     <link rel="stylesheet" th:href="@{/css/githubLayout.css}"/>
     <link rel="stylesheet" th:href="@{/css/githubStyle.css}"/>
@@ -10,7 +14,7 @@
     <link rel="stylesheet" th:href="@{/css/bootstrapValidator.min.css}"/>
     <!--引入js ,spring boot + Thymeleaf项目js和css只能放在指定的文件夹下:static和templates-->
     <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <!--<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>-->
     <script type="text/javascript" th:src="@{/js/bootstrapValidator.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/login.js}"></script>
     <script type="text/javascript" th:src="@{/js/Error.js}"></script>
@@ -104,7 +108,7 @@
         </li>
         <li>
             <a class="link-gray" data-ga-click="Footer, go to contact, text:contact" href="">Contact
-            MicroClouds</a>
+                MicroClouds</a>
         </li>
     </ul>
 </div>
