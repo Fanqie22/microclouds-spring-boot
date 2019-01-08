@@ -50,7 +50,7 @@ $(document).ready(function () {
                     location.href = result.data;
                     return;
                 }
-                location.href = contextPath + '/microclouds/main';
+                location.href = contextPath + '/microclouds/uploadpage';
             } else {
                 // 登陆失败，显示错误信息
                 $("#displayDiv").show();

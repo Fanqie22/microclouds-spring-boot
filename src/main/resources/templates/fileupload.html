@@ -1,204 +1,228 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <meta charset="utf-8"/>
-    <title>Dropzone.js - Ace Admin</title>
+    <meta charset="UTF-8"/>
+    <title>upload file</title>
+    <!--引入bootstrap.css以及bootstrapValidator.css-->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <!--<link rel="stylesheet" th:href="@{/css/uploadDemo.css}"/>-->
+    <link type="text/css" th:href="@{/css/webuploader.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
 
-    <meta name="description" content="Drag &amp; drop file upload with image preview"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css"/>
-
-    <link rel="stylesheet" href="assets/css/dropzone.min.css"/>
-
-    <link rel="stylesheet" href="assets/css/fonts.googleapis.com.css"/>
 </head>
+<body>
 
-<body class="no-skin">
-<div class="main-container ace-save-state" id="main-container">
-    <!--   <script type="text/javascript">
-          try {
-              ace.settings.loadState('main-container')
-          } catch (e) {
-          }
-      </script> -->
+<!--<div id="uploader" class="wu-example" >-->
+<!--&lt;!&ndash;用来存放文件信息&ndash;&gt;-->
+<!--<div id="thelist" class="uploader-list" style="width:500px;"></div>-->
+<!--<div class="btns">-->
+<!--<div id="picker">选择文件</div>-->
+<!--</div>-->
+<!--</div>-->
 
-    <div class="main-content">
-        <div class="main-content-inner">
 
-            <div class="page-content">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div>
-                            <form action="./dummy.html" class="dropzone well" id="dropzone">
-                                <div class="fallback">
-                                    <input name="file" type="file" multiple=""/>
-                                </div>
-                            </form>
-                        </div>
+<div id="uploader" class="wu-example">
+    <!--用来存放文件信息-->
+    <div id="thelist" class="uploader-list"></div>
+    <div class="btns">
+        <div id="picker">选择文件</div>
+        <button class="btn btn-info" id="ctlBtn">开始上传</button>
+        <button class="btn btn-info" id="StopBtn" status="stop">暂停上传</button>
+    </div>
+</div>
 
-                        <div id="preview-template" class="hide">
-                            <div class="dz-preview dz-file-preview">
-                                <div class="dz-image">
-                                    <img data-dz-thumbnail=""/>
-                                </div>
+<!--<div id="uploader" class="wu-example">-->
+<!--<div class="queueList">-->
+<!--<div id="dndArea" class="placeholder">-->
+<!--<div id="filePicker"></div>-->
+<!--<p>或将照片拖到这里，单次最多可选300张</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="statusBar" style="display:none;">-->
+<!--<div class="progress">-->
+<!--<span class="text">0%</span>-->
+<!--<span class="percentage"></span>-->
+<!--</div>-->
+<!--<div class="info"></div>-->
+<!--<div class="btns">-->
+<!--<div id="filePicker2"></div>-->
+<!--<div class="uploadBtn">开始上传</div>-->
+<!--<div class="uploadBtn" id="StopBtn" status="stop">暂停上传</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 
-                                <div class="dz-details">
-                                    <div class="dz-size">
-                                        <span data-dz-size=""></span>
-                                    </div>
 
-                                    <div class="dz-filename">
-                                        <span data-dz-name=""></span>
-                                    </div>
-                                </div>
-
-                                <div class="dz-progress">
-                                    <span class="dz-upload" data-dz-uploadprogress=""></span>
-                                </div>
-
-                                <div class="dz-error-message">
-                                    <span data-dz-errormessage=""></span>
-                                </div>
-
-                                <div class="dz-success-mark">
-                                            <span class="fa-stack fa-lg bigger-150">
-                                                <i class="fa fa-circle fa-stack-2x white"></i>
-
-                                                <i class="fa fa-check fa-stack-1x fa-inverse green"></i>
-                                            </span>
-                                </div>
-
-                                <div class="dz-error-mark">
-                                            <span class="fa-stack fa-lg bigger-150">
-                                                <i class="fa fa-circle fa-stack-2x white"></i>
-
-                                                <i class="fa fa-remove fa-stack-1x fa-inverse red"></i>
-                                            </span>
-                                </div>
-                            </div>
-                        </div><!-- PAGE CONTENT ENDS -->
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.page-content -->
-        </div>
-    </div><!-- /.main-content -->
-</div><!-- /.main-container -->
-
-<!-- basic scripts -->
-
-<!--[if !IE]> -->
-<script src="assets/js/jquery-2.1.4.min.js"></script>
-
-<!-- <![endif]-->
-
-<!--[if IE]>
-<script src="assets/js/jquery-1.11.3.min.js"></script>
-<![endif]-->
-<!-- <script type="text/javascript">
-    if ('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
-</script> -->
-<script src="assets/js/bootstrap.min.js"></script>
-
-<!-- page specific plugin scripts -->
-<script src="assets/js/dropzone.min.js"></script>
-
-<!-- ace scripts -->
-<!-- <script src="assets/js/ace-elements.min.js"></script>
-<script src="assets/js/ace.min.js"></script> -->
-
-<!-- inline scripts related to this page -->
+<script th:src="@{/js/webuploader.nolog.js}"></script>
+<script th:src="@{/js/md5.js}"></script>
+<!--<script th:src="@{/js/uploadDemo.js}"></script>-->
 <script type="text/javascript">
-    jQuery(function ($) {
 
-        try {
-            Dropzone.autoDiscover = false;
-
-            var myDropzone = new Dropzone('#dropzone', {
-                previewTemplate: $('#preview-template').html(),
-
-                thumbnailHeight: 120,
-                thumbnailWidth: 120,
-                maxFilesize: 0.5,
-
-                //addRemoveLinks : true,
-                //dictRemoveFile: 'Remove',
-
-                dictDefaultMessage:
-                    '<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
-                    <span class="smaller-80 grey">(or click)</span> <br /> \
-                    <i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
-                ,
-
-                thumbnail: function (file, dataUrl) {
-                    if (file.previewElement) {
-                        $(file.previewElement).removeClass("dz-file-preview");
-                        var images = $(file.previewElement).find("[data-dz-thumbnail]").each(function () {
-                            var thumbnailElement = this;
-                            thumbnailElement.alt = file.name;
-                            thumbnailElement.src = dataUrl;
-                        });
-                        setTimeout(function () {
-                            $(file.previewElement).addClass("dz-image-preview");
-                        }, 1);
+    var md5File;
+    //监听分块上传过程中的时间点
+    WebUploader.Uploader.register({
+        "before-send-file": "beforeSendFile",  // 整个文件上传前
+        "before-send": "beforeSend",  // 每个分片上传前
+        "after-send-file": "afterSendFile"  // 分片上传完毕
+    }, {
+        //时间点1：所有分块进行上传之前调用此函数 ，检查文件存不存在
+        beforeSendFile: function (file) {
+            var deferred = WebUploader.Deferred();
+            md5File = hex_md5(file.name + file.size);//根据文件名称，大小确定文件唯一标记，这种方式不赞成使用
+            $.ajax({
+                type: "POST",
+                url: "/microclouds/checkFile",
+                data: {
+                    md5File: md5File, //文件唯一标记
+                },
+                async: false,  // 同步
+                dataType: "json",
+                success: function (response) {
+                    if (response) {  //文件存在，跳过 ，提示文件存在
+                        $('#' + file.id).find('p.state').text("file exist");
+                    } else {
+                        deferred.resolve();  //文件不存在或不完整，发送该文件
                     }
                 }
-
+            }, function (jqXHR, textStatus, errorThrown) { //任何形式的验证失败，都触发重新上传
+                deferred.resolve();
             });
-
-
-            //simulating upload progress
-            var minSteps = 6,
-                maxSteps = 60,
-                timeBetweenSteps = 100,
-                bytesPerStep = 100000;
-
-            myDropzone.uploadFiles = function (files) {
-                var self = this;
-
-                for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    totalSteps = Math.round(Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep)));
-
-                    for (var step = 0; step < totalSteps; step++) {
-                        var duration = timeBetweenSteps * (step + 1);
-                        setTimeout(function (file, totalSteps, step) {
-                            return function () {
-                                file.upload = {
-                                    progress: 100 * (step + 1) / totalSteps,
-                                    total: file.size,
-                                    bytesSent: (step + 1) * file.size / totalSteps
-                                };
-
-                                self.emit('uploadprogress', file, file.upload.progress, file.upload.bytesSent);
-                                if (file.upload.progress == 100) {
-                                    file.status = Dropzone.SUCCESS;
-                                    self.emit("success", file, 'success', null);
-                                    self.emit("complete", file);
-                                    self.processQueue();
-                                }
-                            };
-                        }(file, totalSteps, step), duration);
+            return deferred.promise();
+        },
+        //时间点2：如果有分块上传，则每个分块上传之前调用此函数  ，判断分块存不存在
+        beforeSend: function (block) {
+            var deferred = WebUploader.Deferred();
+            $.ajax({
+                type: "POST",
+                url: "/microclouds/checkChunk",
+                data: {
+                    md5File: md5File,  //文件唯一标记
+                    chunk: block.chunk,  //当前分块下标
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response) {
+                        deferred.reject(); //分片存在，跳过
+                    } else {
+                        deferred.resolve();  //分块不存在或不完整，重新发送该分块内容
                     }
                 }
+            }, function (jqXHR, textStatus, errorThrown) { //任何形式的验证失败，都触发重新上传
+                deferred.resolve();
+            });
+            return deferred.promise();
+        },
+        //时间点3：分片上传完成后，通知后台合成分片
+        afterSendFile: function (file) {
+            var chunksTotal = Math.ceil(file.size / (5 * 1024 * 1024));
+            if (chunksTotal >= 1) {
+                //合并请求
+                var deferred = WebUploader.Deferred();
+                $.ajax({
+                    type: "POST",
+                    url: "/microclouds/merge",
+                    data: {
+                        name: file.name,
+                        md5File: md5File,
+                        chunks: chunksTotal
+                    },
+                    cache: false,
+                    async: false,  // 同步
+                    dataType: "json",
+                    success: function (response) {
+                        if (response) {
+                            $('#' + file.id).find('p.state').text('upload success');
+                            $('#' + file.id).find('.progress').fadeOut();
+                        } else {
+                            $('#' + file.id).find('p.state').text('merge error');
+                            deferred.reject();
+                        }
+                    }
+                })
+                return deferred.promise();
             }
-
-
-            //remove dropzone instance when leaving this page in ajax mode
-            $(document).one('ajaxloadstart.page', function (e) {
-                try {
-                    myDropzone.destroy();
-                } catch (e) {
-                }
-            });
-
-        } catch (e) {
-            alert('Dropzone.js does not support older browsers!');
         }
-
     });
+
+    var uploader = WebUploader.create({
+
+        disableGlobalDnd: true,
+        auto: false,// 选完文件后，是否自动上传。
+        swf: '../static/js/Uploader.swf',// swf文件路径
+        server: '/microclouds/upload',// 文件接收服务端。
+        pick: '#picker',// 选择文件的按钮。可选。
+        chunked: true,//开启分片上传
+        chunkSize: 5 * 1024 * 1024,//5M
+        chunkRetry: 3,//错误重试次数
+    });
+
+    //上传添加参数
+    uploader.on('uploadBeforeSend', function (obj, data, headers) {
+        data.md5File = md5File;
+    });
+
+    // 当有文件被添加进队列的时候
+    uploader.on('fileQueued', function (file) {
+        $("#picker").hide();//隐藏上传框
+        $("#thelist").append('<div id="' + file.id + '" class="item">' +
+            '<h4 class="info">' + file.name + '</h4>' +
+            '<p class="state"></p>' +
+            '<p class="uploadProgressPercent" th:text="" ></p>' +
+            '</div>');
+    });
+
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on('uploadProgress', function (file, percentage) {
+        var $li = $('#' + file.id),
+            $percent = $li.find('.progress .progress-bar');
+
+        // 避免重复创建
+        if (!$percent.length) {
+            $percent = $('<div class="progress progress-striped active">' +
+                '<div class="progress-bar" role="progressbar" style="width: 0%"></div>' +
+                '</div>').appendTo($li).find('.progress-bar');
+        }
+        $li.find('p.state').text('Uploading');
+
+        var percent = ${#numbers.formatDecimal(percentage * 100,2,1)}+'%';
+        $li.find('p.uploadProgressPercent').text(percent);
+        $percent.css('width', percentage * 100 + '%');
+    });
+
+
+    // ----- 扩展功能  -----
+
+    // 开始上传
+    $("#ctlBtn").click(function () {
+        uploader.upload();//上传
+    });
+    // 暂停
+    // $("#uploaderStopBtn").click(function () {
+    //     console.log($('#StopBtn').attr("status"));
+    //     var status = $('#StopBtn').attr("status");
+    //     if (status == "stop") {
+    //         console.log("当前按钮是暂停，即将变为继续");
+    //         $("#StopBtn").html("继续上传");
+    //         $("#StopBtn").attr("status", "continuous");
+    //         console.log("当前所有文件===" + uploader.getFiles());
+    //         console.log("=============暂停上传==============");
+    //         uploader.stop(true);
+    //         console.log("=============所有当前暂停的文件=============");
+    //         console.log(uploader.getFiles("interrupt"));
+    //     } else {
+    //         console.log("当前按钮是继续，即将变为暂停");
+    //         $("#StopBtn").html("暂停上传");
+    //         $("#StopBtn").attr("status", "stop");
+    //         console.log("===============所有当前暂停的文件==============");
+    //         console.log(uploader.getFiles("interrupt"));
+    //         uploader.upload(uploader.getFiles("interrupt"));
+    //     }
+    // });
+
+
 </script>
 </body>
 </html>

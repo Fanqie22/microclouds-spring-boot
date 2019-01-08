@@ -14,6 +14,8 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +47,8 @@ public class LoginController {
     private UserService userService;
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private Environment environment;
 
     @GetMapping("/durid/stat")
     public Object druidStat() {
@@ -197,12 +201,12 @@ public class LoginController {
         }
         int codeNum = (int) ((Math.random() * 9 + 1) * 100000);
         //发送邮件
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//        mailMessage.setFrom(environment.getProperty("spring.mail.username"));
-//        mailMessage.setTo(userMail);
-//        mailMessage.setSubject("microcloudsecurity");
-//        mailMessage.setText("您正在进行重置密码操作,您的验证码是 : " + codeNum);
-//        mailSender.send(mailMessage);
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(environment.getProperty("spring.mail.username"));
+        mailMessage.setTo(userMail);
+        mailMessage.setSubject("microcloudsecurity");
+        mailMessage.setText("您正在进行重置密码操作,您的验证码是 : " + codeNum);
+        mailSender.send(mailMessage);
 
         return codeNum + "";
     }
@@ -264,7 +268,6 @@ public class LoginController {
     @ResponseBody
     public String validateRestMail(String userMail) {
         boolean isExist = userService.isEmailExist(userMail);
-        System.out.println("---------------isexit: " + isExist);
         return "{\"valid\":" + isExist + "}";
     }
 
