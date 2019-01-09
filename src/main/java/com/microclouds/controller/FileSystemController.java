@@ -14,7 +14,7 @@ public class FileSystemController {
 
     @GetMapping("/uploadpage")
     public String page() {
-        return "fileupload";
+        return "main-3";
     }
 
     /**
@@ -25,7 +25,6 @@ public class FileSystemController {
     @ResponseBody
     public Boolean checkFile(@RequestParam(value = "md5File") String md5File) {
 
-        System.out.println("-----checkfile-------");
         Boolean exist = false;
 
         //实际项目中，这个md5File唯一值，应该保存到数据库或者缓存中，通过判断唯一值存不存在，来判断文件存不存在，这里我就不演示了
@@ -43,7 +42,6 @@ public class FileSystemController {
     @ResponseBody
     public Boolean checkChunk(@RequestParam(value = "md5File") String md5File,
                               @RequestParam(value = "chunk") Integer chunk) {
-        System.out.println("-----checkchunk-------");
         Boolean exist = false;
         String path = "F:/" + md5File + "/";//分片存放目录
         String chunkName = chunk + ".tmp";//分片名
@@ -64,7 +62,6 @@ public class FileSystemController {
                           @RequestParam(value = "md5File") String md5File,
                           @RequestParam(value = "chunk", required = false) Integer chunk) { //第几片，从0开始
         String path = "F:/" + md5File + "/";
-        System.out.println("-----upload-------" + path);
         File dirfile = new File(path);
         if (!dirfile.exists()) {//目录不存在，创建目录
             dirfile.mkdirs();
@@ -99,11 +96,11 @@ public class FileSystemController {
                          @RequestParam(value = "md5File") String md5File,
                          @RequestParam(value = "name") String name) throws Exception {
         String path = "F:";
-        System.out.println("-----merge-------" + path);
         FileOutputStream fileOutputStream = new FileOutputStream(path + "/" + name);  //合成后的文件
         try {
             byte[] buf = new byte[1024];
             for (long i = 0; i < chunks; i++) {
+                System.out.println("------" + i + "------"+chunks);
                 String chunkFile = i + ".tmp";
                 File file = new File(path + "/" + md5File + "/" + chunkFile);
                 InputStream inputStream = new FileInputStream(file);
@@ -116,10 +113,12 @@ public class FileSystemController {
             //合并完，要删除md5目录及临时文件，节省空间。这里代码省略
 
         } catch (Exception e) {
+            System.out.println("----------4-----------------------" + e.getMessage());
             return false;
         } finally {
             fileOutputStream.close();
         }
+        System.out.println("------------66666666666666-------------------------------");
         return true;
     }
 }
