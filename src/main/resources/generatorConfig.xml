@@ -39,38 +39,59 @@
 
         <!-- table标签可以有多个，至少一个，tableName指定表名，可以使用_和%通配符 -->
         <!--<table tableName="user">-->
-            <!--&lt;!&ndash; 是否只生成POJO对象 &ndash;&gt;-->
-            <!--<property name="modelOnly" value="false"/>-->
-            <!--&lt;!&ndash; 数据库中表名有时我们都会带个前缀，而实体又不想带前缀，这个配置可以把实体的前缀去掉 &ndash;&gt;-->
-            <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
+        <!--&lt;!&ndash; 是否只生成POJO对象 &ndash;&gt;-->
+        <!--<property name="modelOnly" value="false"/>-->
+        <!--&lt;!&ndash; 数据库中表名有时我们都会带个前缀，而实体又不想带前缀，这个配置可以把实体的前缀去掉 &ndash;&gt;-->
+        <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
         <!--</table>-->
         <table tableName="file_system">
             <property name="modelOnly" value="false"/>
             <domainObjectRenamingRule searchString="^Tbl" replaceString=""/>
         </table>
-        <!--<table tableName="user_detail">-->
-            <!--<property name="modelOnly" value="false"/>-->
-            <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
-        <!--</table>-->
+        <table tableName="user_detail">
+            <property name="modelOnly" value="false"/>
+            <domainObjectRenamingRule searchString="^Tbl" replaceString=""/>
+        </table>
+        <table tableName="user">
+            <property name="modelOnly" value="false"/>
+            <domainObjectRenamingRule searchString="^Tbl" replaceString=""/>
+        </table>
+        <table tableName="message">
+            <property name="modelOnly" value="false"/>
+            <domainObjectRenamingRule searchString="^Tbl" replaceString=""/>
+        </table>
+        <table tableName="cloud_capacity">
+            <property name="modelOnly" value="false"/>
+            <domainObjectRenamingRule searchString="^Tbl" replaceString=""/>
+        </table>
+        <table tableName="email">
+            <property name="modelOnly" value="false"/>
+            <domainObjectRenamingRule searchString="^Tbl" replaceString=""/>
+        </table>
+        <table tableName="file_system_log">
+            <property name="modelOnly" value="false"/>
+            <domainObjectRenamingRule searchString="^Tbl" replaceString=""/>
+        </table>
+
         <!--<table tableName="area">-->
-            <!--<property name="modelOnly" value="false"/>-->
-            <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
+        <!--<property name="modelOnly" value="false"/>-->
+        <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
         <!--</table>-->
         <!--<table tableName="city">-->
-            <!--<property name="modelOnly" value="false"/>-->
-            <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
+        <!--<property name="modelOnly" value="false"/>-->
+        <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
         <!--</table>-->
         <!--<table tableName="province">-->
-            <!--<property name="modelOnly" value="false"/>-->
-            <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
+        <!--<property name="modelOnly" value="false"/>-->
+        <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
         <!--</table>-->
         <!--<table tableName="authority">-->
-            <!--<property name="modelOnly" value="false"/>-->
-            <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
+        <!--<property name="modelOnly" value="false"/>-->
+        <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
         <!--</table>-->
         <!--<table tableName="role">-->
-            <!--<property name="modelOnly" value="false"/>-->
-            <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
+        <!--<property name="modelOnly" value="false"/>-->
+        <!--<domainObjectRenamingRule searchString="^Tbl" replaceString=""/>-->
         <!--</table>-->
 
 
