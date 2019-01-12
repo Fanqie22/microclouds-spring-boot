@@ -1,5 +1,6 @@
 $(document).ready(function () {
     var md5File;
+    var filenumber = 0;
 //监听分块上传过程中的时间点
     WebUploader.Uploader.register({
         "before-send-file": "beforeSendFile",  // 整个文件上传前
@@ -75,6 +76,7 @@ $(document).ready(function () {
                         $("#picker").show();//显示上传框
                         if (response) {
                             $('#' + file.id).find('p.state').text('上传成功');
+                            $('#showMessage').html('上传队列中的文件全部上传成功 , 您可以继续添加文件进队列');
                             $('#' + file.id).find('.progress').fadeOut();
                         } else {
                             $('#' + file.id).find('p.state').text('后台处理文件出错,请重试');
@@ -93,7 +95,7 @@ $(document).ready(function () {
         duplicate: false,//去重
         prepareNextFile: true,//是否允许在文件传输时提前把下一个文件准备好
         disableGlobalDnd: true,
-        fileNumLimit: 10,//选择文件最大数目
+        fileNumLimit: 2,//选择文件最大数目
         auto: false,// 选完文件后，是否自动上传。
         swf: '../static/js/Uploader.swf',// swf文件路径
         server: '/microclouds/upload',// 文件接收服务端。
@@ -111,11 +113,16 @@ $(document).ready(function () {
 // 当有文件被添加进队列的时候
     uploader.on('fileQueued', function (file) {
         // $("#picker").hide();//隐藏上传框
+        $('#showMessage').html('文件已添加进上传队列');
         var size = new Number(file.size / 1024).toFixed(0);
-        var id = file.id;
+
+        if (size > 1024 * 1024) {
+            $('#showMessage').html('文件 ' + file.name + ' 超过了1GB , 我们将会分片上传 , 您随时可以暂停/继续/取消上传');
+        }
+        // var id = file.id;
         $("#thelist").append('<div id="' + file.id + '" class="item">' +
             '<h4 class="info" style="display: inline-block">' + file.name + ' &nbsp;  &nbsp;  &nbsp;  大小 :  ' + size + ' KB ' + '</h4>' +
-            '<button id="removeFileBtn" class="btn btn-link" style="display: inline-block" onclick=\"removeFileBtn(' + id + ')\">' + '移除' + '</button>' +
+            // '<button id="removeFileBtn" class="btn btn-link" style="display: inline-block" onclick=\"removeFileBtn(' + id + ')\">' + '移除' + '</button>' +
             '<p class="state"></p>' +
             // '<p class="uploadProgressPercent" th:text="" ></p>' +
             '</div>');
@@ -131,68 +138,93 @@ $(document).ready(function () {
                 '<div class="progress-bar" role="progressbar" style="width: 0%"></div>' +
                 '</div>').appendTo($li).find('.progress-bar');
         }
-        $li.find('p.state').text('Uploading');
+        $li.find('p.state').text('上传进度 : ');
 
         // var percent = ${#numbers.formatDecimal(percentage * 100,2,1)}+'%';
         // $li.find('p.uploadProgressPercent').text(percent);
         $percent.css('width', percentage * 100 + '%');
     });
 
-    //上传出错
-    uploader.onError = function (code) {
-        alert('上传出错! 请刷新页面之后重试 ');
+    // 出错,这里用来检测添加文件进入队列的时候是否出错
+    uploader.onError = function () {
+        if (Object.keys(uploader.getFiles()).length == 1) {
+            $('#showMessage').html('该文件已经在上传队列中');
+        } else {
+            $('#showMessage').html('选择的文件不能超过两个 ,  超出部分将不会加入上传队列');
+        }
+        // uploader.reset();
+        // $("#thelist").remove();
     };
 
-    // 所有文件上传成功后调用
+    // 所有文件上传后调用
     uploader.on('uploadFinished', function () {
+        alert(filenumber)
+        filenumber = filenumber + 1;
+        if (filenumber > 3) {
+            filenumber = 0;
+            uploader.reset();
+            $('#thelist').empty();
+            $('#Backgrounder').text('关闭');
+            $('#showMessage').html('文件列表过长已清空 , 可以在主页下方的表格中查看历史记录');
+        }
         //清空队列
         uploader.reset();
+        $("#ctlBtn").removeAttr("disabled");
+        $('#Backgrounder').text('关闭');
+        $("#uploaderStopBtn").attr({"disabled": "disabled"});
     });
 
-// ----- 扩展功能  -----
-    // 移除
-    // $("#removeFileBtn").click(function () {
-    //     alert(" is  remove");
-    //     // uploader.remove(true);
-    // });
+
+    // ----- 扩展功能  -----
+
+    // 文件上传失败，显示上传出错
+    uploader.on('uploadError', function (file) {
+        $('#showMessage').html('上传出错 , 请重试 ');
+    });
+
+//     移除队列全部文件
+    $("#removeAll").click(function () {
+        uploader.reset();
+        $('#thelist').empty();
+        $('#Backgrounder').text('关闭');
+        $('#showMessage').html('上传队列已清空 , 您可以继续添加文件 , 所有正在上传的文件已被取消 , 但是已上传到服务器的部分我们将会为您保留1天 , 再次上传此文件时不用重新开始上传');
+    });
 
     // 开始上传
     $("#ctlBtn").click(function () {
-        alert('开始上传');
-        uploader.upload();//上传
+        if (Object.keys(uploader.getFiles()).length == 0) {
+            $('#showMessage').html('还没有选择文件 , 上传队列为空 ');
+        } else if (Object.keys(uploader.getFiles()).length == 2) {
+            $("#ctlBtn").attr({"disabled": "disabled"});
+            $("#uploaderStopBtn").removeAttr("disabled");
+            $('#Backgrounder').text('后台运行');
+            uploader.upload();
+        } else {
+            $("#uploaderStopBtn").removeAttr("disabled");
+            $('#Backgrounder').text('后台运行');
+            uploader.upload();
+        }
     });
     //取消
     $("#cancelBtn").click(function (file) {
-        alert('文件已取消上传');
-        uploader.cancelFile(file);
+        $('#showMessage').html('文件已取消上传 , 已上传到服务器的部分我们将会为您保留1天 , 再次上传此文件时不用重新开始上传');
+        // uploader.cancelFile(file);
+        uploader.reset();
+        $('#thelist').empty();
+
     });
 
     // 暂停
     $("#uploaderStopBtn").click(function () {
-        alert('stop');
-        console.log($('#StopBtn').attr("status"));
-        var status = $('#StopBtn').attr("status");
+        var status = $('#uploaderStopBtn').attr("status");
         if (status == "stop") {
-            $("#StopBtn").html("继续上传");
-            $("#StopBtn").attr("status", "continuous");
+            $("#uploaderStopBtn").html("继续上传");
+            $("#uploaderStopBtn").attr("status", "continue");
             uploader.stop(true);
-            console.log(uploader.getFiles("interrupt"));
         } else {
-            $("#StopBtn").html("暂停上传");
-            $("#StopBtn").attr("status", "stop");
-            console.log(uploader.getFiles("interrupt"));
+            $("#uploaderStopBtn").html("暂停上传");
+            $("#uploaderStopBtn").attr("status", "stop");
             uploader.upload(uploader.getFiles("interrupt"));
         }
     });
 });
-
-function removeFileBtn(id) {
-    // $(id).remove();
-    id = id.getAttribute("id");
-    console.log(id);
-    $("#" + id).remove();
-    alert('2')
-    uploader.removeFile(id, true);
-    alert(uploader.getFiles());
-    // id.style.display="none";
-}

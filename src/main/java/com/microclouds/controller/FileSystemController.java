@@ -1,5 +1,6 @@
 package com.microclouds.controller;
 
+import com.microclouds.common.util.GetHash;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +12,6 @@ import java.io.*;
 @EnableAutoConfiguration
 @RequestMapping(value = "/microclouds")
 public class FileSystemController {
-
-    @GetMapping("/uploadpage")
-    public String page() {
-        return "main-3";
-    }
 
     /**
      * @author van
@@ -43,7 +39,7 @@ public class FileSystemController {
     public Boolean checkChunk(@RequestParam(value = "md5File") String md5File,
                               @RequestParam(value = "chunk") Integer chunk) {
         Boolean exist = false;
-        String path = "F:/" + md5File + "/";//分片存放目录
+        String path = "F:/temp/" + md5File + "/";//分片存放目录
         String chunkName = chunk + ".tmp";//分片名
         File file = new File(path + chunkName);
         if (file.exists()) {
@@ -61,7 +57,8 @@ public class FileSystemController {
     public Boolean upload(@RequestParam(value = "file") MultipartFile file,
                           @RequestParam(value = "md5File") String md5File,
                           @RequestParam(value = "chunk", required = false) Integer chunk) { //第几片，从0开始
-        String path = "F:/" + md5File + "/";
+        System.out.println("上传的文件的MD5 : " + md5File);
+        String path = "F:/temp/" + md5File + "/";
         File dirfile = new File(path);
         if (!dirfile.exists()) {//目录不存在，创建目录
             dirfile.mkdirs();
@@ -81,6 +78,7 @@ public class FileSystemController {
             }
             file.transferTo(savefile);//将文件保存
         } catch (IOException e) {
+            System.out.println("upload error :" + e.getMessage());
             return false;
         }
         return true;
@@ -95,12 +93,12 @@ public class FileSystemController {
     public Boolean merge(@RequestParam(value = "chunks", required = false) Integer chunks,
                          @RequestParam(value = "md5File") String md5File,
                          @RequestParam(value = "name") String name) throws Exception {
-        String path = "F:";
-        FileOutputStream fileOutputStream = new FileOutputStream(path + "/" + name);  //合成后的文件
+        String path = "F:/temp/";
+        System.out.println("合并的分块 : " + md5File);
+        FileOutputStream fileOutputStream = new FileOutputStream(path + name);  //合成后的文件
         try {
             byte[] buf = new byte[1024];
             for (long i = 0; i < chunks; i++) {
-                System.out.println("------" + i + "------"+chunks);
                 String chunkFile = i + ".tmp";
                 File file = new File(path + "/" + md5File + "/" + chunkFile);
                 InputStream inputStream = new FileInputStream(file);
@@ -111,14 +109,15 @@ public class FileSystemController {
                 inputStream.close();
             }
             //合并完，要删除md5目录及临时文件，节省空间。这里代码省略
+            String md5 = GetHash.getFileMD5(path + name, "md5");
+            System.out.println("用户上传的文件的md5 : " + md5);
 
         } catch (Exception e) {
-            System.out.println("----------4-----------------------" + e.getMessage());
+            System.out.println("merge error : " + e.getMessage());
             return false;
         } finally {
             fileOutputStream.close();
         }
-        System.out.println("------------66666666666666-------------------------------");
         return true;
     }
 }
