@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.microclouds.dao.ext.FileSystemLogExtMapper">
+    <resultMap id="BaseResultMap" type="com.microclouds.pojo.FileSystemLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="file_id" jdbcType="INTEGER" property="fileId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="log_date" jdbcType="TIMESTAMP" property="logDate"/>
+        <result column="log_type" jdbcType="VARCHAR" property="logType"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="upload_status" jdbcType="VARCHAR" property="uploadStatus"/>
+        <result column="file_size" jdbcType="DECIMAL" property="fileSize"/>
+        <result column="del_flag" jdbcType="BIT" property="delFlag"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, file_id, user_id, log_date, log_type, file_name, upload_status, file_size, del_flag
+    </sql>
+
+    <select id="selectFileSysLogByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from file_system_log
+        where id = #{userId,jdbcType=INTEGER}
+    </select>
+</mapper>

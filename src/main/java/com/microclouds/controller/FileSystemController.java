@@ -14,19 +14,15 @@ import java.io.*;
 public class FileSystemController {
 
     /**
-     * @author van
-     * 检查文件存在与否
+     * @ddescription : 通过md5检查文件存在与否
      */
     @PostMapping("/checkFile")
     @ResponseBody
     public Boolean checkFile(@RequestParam(value = "md5File") String md5File) {
 
+//        TODO
         Boolean exist = false;
 
-        //实际项目中，这个md5File唯一值，应该保存到数据库或者缓存中，通过判断唯一值存不存在，来判断文件存不存在，这里我就不演示了
-		/*if(true) {
-			exist = true;
-		}*/
         return exist;
     }
 
