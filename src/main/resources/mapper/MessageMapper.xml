@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.microclouds.mapper.MessageMapper">
-	<!--开启二级缓存-->
-	<!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+<mapper namespace="com.microclouds.dao.MessageMapper">
+    <!--开启二级缓存-->
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
 
-	<resultMap id="BaseResultMap" type="com.microclouds.entity.Message">
-		<id column="id" property="id" />
-		<result column="from_real_name" property="fromRealName" />
-		<result column="from_user_id" property="fromUserId" />
-		<result column="to_user_id" property="toUserId" />
-		<result column="content" property="content" />
-		<result column="send_date" property="sendDate" />
-		<result column="type" property="type" />
-		<result column="del_flag" property="delFlag" />
-	</resultMap>
+    <resultMap id="BaseResultMap" type="com.microclouds.entity.Message">
+        <id column="id" property="id"/>
+        <result column="from_real_name" property="fromRealName"/>
+        <result column="from_user_id" property="fromUserId"/>
+        <result column="to_user_id" property="toUserId"/>
+        <result column="content" property="content"/>
+        <result column="send_date" property="sendDate"/>
+        <result column="type" property="type"/>
+        <result column="readed" property="readed"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
 
     <!-- 通用查询结果列-->
     <sql id="Base_Column_List">
-        id, from_real_name AS fromRealName, from_user_id AS fromUserId, to_user_id AS toUserId, content, send_date AS sendDate, type, del_flag AS delFlag
+        id, from_real_name AS fromRealName, from_user_id AS fromUserId, to_user_id AS toUserId, content, send_date AS sendDate, type, readed as readed, del_flag AS delFlag
     </sql>
+
+    <select id="selectMessageList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from message where del_flag=#{state}
+    </select>
+
+    <update id="deleteMessageById" parameterType="java.lang.Integer">
+        update message set del_flag=1 where id=#{id}
+    </update>
 </mapper>

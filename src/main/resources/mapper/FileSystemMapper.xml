@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.microclouds.mapper.FileSystemMapper">
-	<!--开启二级缓存-->
-	<!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+<mapper namespace="com.microclouds.dao.FileSystemMapper">
+    <!--开启二级缓存-->
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
 
-	<resultMap id="BaseResultMap" type="com.microclouds.entity.FileSystem">
-		<id column="id" property="id" />
-		<result column="user_id" property="userId" />
-		<result column="pid" property="pid" />
-		<result column="pid_path" property="pidPath" />
-		<result column="file_name" property="fileName" />
-		<result column="file_type" property="fileType" />
-		<result column="file_size" property="fileSize" />
-		<result column="file_md5" property="fileMd5" />
-		<result column="create_time" property="createTime" />
-		<result column="update_time" property="updateTime" />
-		<result column="file_icon" property="fileIcon" />
-		<result column="del_flag" property="delFlag" />
-	</resultMap>
+    <resultMap id="BaseResultMap" type="com.microclouds.entity.FileSystem">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="pid" property="pid"/>
+        <result column="pid_path" property="pidPath"/>
+        <result column="file_name" property="fileName"/>
+        <result column="file_type" property="fileType"/>
+        <result column="file_size" property="fileSize"/>
+        <result column="file_md5" property="fileMd5"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="file_icon" property="fileIcon"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
 
     <!-- 通用查询结果列-->
     <sql id="Base_Column_List">
         id, user_id AS userId, pid, pid_path AS pidPath, file_name AS fileName, file_type AS fileType, file_size AS fileSize, file_md5 AS fileMd5, create_time AS createTime, update_time AS updateTime, file_icon AS fileIcon, del_flag AS delFlag
     </sql>
+
+    <select id="selectMd5" parameterType="java.lang.String" resultType="java.lang.String">
+		select file_md5 from file_system where file_md5=#{fileMd5}
+	</select>
+
+    <select id="selectFilesList" resultMap="BaseResultMap">
+         select * from file_system where del_flag=#{state}
+    </select>
+
+    <select id="selectFilesByTypePage" resultMap="BaseResultMap">
+         select * from file_system where file_type=#{fileType} and del_flag=#{state}
+    </select>
+
+    <update id="deleteFileById" parameterType="java.lang.Integer">
+        update file_system set del_flag=1 where id=#{id}
+    </update>
 </mapper>

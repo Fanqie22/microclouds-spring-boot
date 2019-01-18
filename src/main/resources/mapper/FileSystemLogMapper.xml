@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.microclouds.mapper.FileSystemLogMapper">
-	<!--开启二级缓存-->
-	<!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+<mapper namespace="com.microclouds.dao.FileSystemLogMapper">
+    <!--开启二级缓存-->
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
 
-	<resultMap id="BaseResultMap" type="com.microclouds.entity.FileSystemLog">
-		<id column="id" property="id" />
-		<result column="file_id" property="fileId" />
-		<result column="user_id" property="userId" />
-		<result column="log_date" property="logDate" />
-		<result column="log_type" property="logType" />
-		<result column="file_name" property="fileName" />
-		<result column="upload_status" property="uploadStatus" />
-		<result column="file_size" property="fileSize" />
-		<result column="del_flag" property="delFlag" />
-	</resultMap>
+    <resultMap id="BaseResultMap" type="com.microclouds.entity.FileSystemLog">
+        <id column="id" property="id"/>
+        <result column="file_id" property="fileId"/>
+        <result column="user_id" property="userId"/>
+        <result column="log_date" property="logDate"/>
+        <result column="log_type" property="logType"/>
+        <result column="file_name" property="fileName"/>
+        <result column="upload_status" property="uploadStatus"/>
+        <result column="file_size" property="fileSize"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
 
     <!-- 通用查询结果列-->
     <sql id="Base_Column_List">
         id, file_id AS fileId, user_id AS userId, log_date AS logDate, log_type AS logType, file_name AS fileName, upload_status AS uploadStatus, file_size AS fileSize, del_flag AS delFlag
     </sql>
+
+    <select id="selectFileLogsList" resultMap="BaseResultMap">
+         select * from file_system_log where del_flag=#{state}
+    </select>
+
+    <update id="deleteFileLogById" parameterType="java.lang.Integer">
+        update file_system_log set del_flag=1 where id=#{id}
+    </update>
 </mapper>
