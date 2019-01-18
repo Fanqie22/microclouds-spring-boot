@@ -5,9 +5,9 @@ import com.microclouds.common.util.PropertyUtil;
 import com.microclouds.common.util.ResponseValue;
 import com.microclouds.common.util.SecurityUtil;
 import com.microclouds.entity.RestPasswordDto;
+import com.microclouds.entity.User;
 import com.microclouds.entity.UserVo;
-import com.microclouds.pojo.User;
-import com.microclouds.service.UserService;
+import com.microclouds.service.IUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -44,7 +44,7 @@ import java.util.List;
 public class LoginController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
@@ -147,7 +147,7 @@ public class LoginController {
         user.setRoleName("user");
         user.setUserName(vo.getUserName());
         user.setCreateTime(new Date());
-        user.setDelFlag(false);
+        user.setDelFlag(0);
 
         // 使用MD5加密密码
         user.setPassword(SecurityUtil.encryptByMD5(vo.getPassword()));
@@ -202,7 +202,7 @@ public class LoginController {
         int codeNum = (int) ((Math.random() * 9 + 1) * 100000);
         //发送邮件
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom(environment.getProperty("spring.mail.username"));
+//        mailMessage.setFrom(environment.getProperty("spring.mail.username"));
         mailMessage.setTo(userMail);
         mailMessage.setSubject("microcloudsecurity");
         mailMessage.setText("您正在进行重置密码操作,您的验证码是 : " + codeNum);

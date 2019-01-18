@@ -1,7 +1,7 @@
 package com.microclouds.config;
 
-import com.microclouds.pojo.User;
-import com.microclouds.service.UserService;
+import com.microclouds.entity.User;
+import com.microclouds.service.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AuthRealm extends AuthorizingRealm {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     /**
      * @param principalCollection

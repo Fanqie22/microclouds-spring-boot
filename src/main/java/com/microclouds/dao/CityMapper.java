@@ -1,7 +1,7 @@
 package com.microclouds.dao;
 
-import com.microclouds.entity.UserLog;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.microclouds.entity.City;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2019-01-17
  */
 @Mapper
-public interface UserLogMapper extends BaseMapper<UserLog> {
+public interface CityMapper extends BaseMapper<City> {
 
 }

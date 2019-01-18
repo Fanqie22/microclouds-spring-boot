@@ -1,9 +1,9 @@
 package com.microclouds.config;
 
+import com.microclouds.common.util.JsonUtils;
 import com.microclouds.common.util.PropertyUtil;
 import com.microclouds.common.util.ResponseValue;
-import com.microclouds.common.util.JsonUtils;
-import com.microclouds.pojo.User;
+import com.microclouds.entity.User;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 
