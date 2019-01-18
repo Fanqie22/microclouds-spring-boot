@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/microclouds")
 public class mainController {
 
+    /**
+     * 1. message和email表添加readed字段
+     * 2. 上一个commit ,关于系统路径的还没有提交到github
+     * 3. filesystem表添加md5字段
+     */
 
 
     /**

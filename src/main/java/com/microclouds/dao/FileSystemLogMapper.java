@@ -1,8 +1,11 @@
 package com.microclouds.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.microclouds.entity.FileSystemLog;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +17,9 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface FileSystemLogMapper extends BaseMapper<FileSystemLog> {
+
+    int deleteFileLogById(Integer id);
+
+    List<FileSystemLog> selectFileLogsList(Pagination page, Integer state);
 
 }
