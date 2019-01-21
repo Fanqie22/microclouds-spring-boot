@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 
 @Controller
 @EnableAutoConfiguration
@@ -30,9 +31,15 @@ public class FileSystemController {
      */
     @PostMapping("/checkFile")
     @ResponseBody
-    public Boolean checkFile(@RequestParam(value = "md5File") String md5File) {
+    public Boolean checkFile(@RequestParam(value = "md5File") String md5File) throws IOException, NoSuchAlgorithmException {
 
         Boolean exist = false;
+
+//        File file1 = (File) file;
+
+//        String md5 = GetHash.getFileMD5(file1, "md5");
+
+        System.out.println("check file : " + md5File);
 
         //实际项目中，这个md5File唯一值，应该保存到数据库或者缓存中，通过判断唯一值存不存在，来判断文件存不存在，这里我就不演示了
 		/*if(true) {

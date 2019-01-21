@@ -20,4 +20,16 @@ public class GetHash {
         return toHexString(md5.digest());
     }
 
+    public static String getFileMD5(File file, String hashType) throws IOException, NoSuchAlgorithmException {
+        InputStream ins = new FileInputStream(file);
+        byte[] buffer = new byte[8192];
+        MessageDigest md5 = MessageDigest.getInstance(hashType);
+        int len;
+        while ((len = ins.read(buffer)) != -1) {
+            md5.update(buffer, 0, len);
+        }
+        ins.close();
+        return toHexString(md5.digest());
+    }
+
 }

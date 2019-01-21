@@ -10,7 +10,7 @@ $(document).ready(function () {
         //时间点1：所有分块进行上传之前调用此函数 ，检查文件存不存在
         beforeSendFile: function (file) {
             var deferred = WebUploader.Deferred();
-            md5File = hex_md5(file.name + file.size);//根据文件名称，大小确定文件唯一标记，这种方式不赞成使用
+            md5File = hex_md5(file);//根据文件名称，大小确定文件唯一标记，这种方式不赞成使用
             $.ajax({
                 type: "POST",
                 url: "/microclouds/checkFile",
@@ -158,7 +158,6 @@ $(document).ready(function () {
 
     // 所有文件上传后调用
     uploader.on('uploadFinished', function () {
-        alert(filenumber)
         filenumber = filenumber + 1;
         if (filenumber > 3) {
             filenumber = 0;

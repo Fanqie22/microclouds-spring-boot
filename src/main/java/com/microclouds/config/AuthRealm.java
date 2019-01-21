@@ -53,7 +53,7 @@ public class AuthRealm extends AuthorizingRealm {
         System.out.println("Shiro : 启用认证");
         User userInfo = userService.getUserInfoByAccount(upToken.getUsername());
         if (userInfo != null) {
-            AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo.getUserMail(), userInfo.getPassword(), this.getName());
+            AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userInfo, userInfo.getPassword(), this.getName());
             System.out.println("Shiro : 认证成功");
             return authenticationInfo;
         }
