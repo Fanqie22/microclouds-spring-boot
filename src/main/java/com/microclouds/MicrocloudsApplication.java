@@ -1,8 +1,11 @@
 package com.microclouds;
 
+import com.microclouds.common.util.SystemPath;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.io.File;
 
 /**
  * @author : https://github.com/Fanqie22
@@ -15,6 +18,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class MicrocloudsApplication {
 
     public static void main(String[] args) {
+
+        /**
+         * 启动整个项目的时候创建本系统的根目录
+         */
+        File rootPath = new File(SystemPath.getSystemPath());
+        if (!rootPath.exists()) {
+            rootPath.mkdirs();
+        }
         /**
          * 负责启动引导应用程序
          */
